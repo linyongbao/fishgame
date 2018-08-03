@@ -1,0 +1,10 @@
+<root>
+	<!--<appServer>http://115.29.8.222:7100</appServer>
+	<wxgetUserUrl>http://115.29.8.222:8080/bbgameserver/login/wxgetUser</wxgetUserUrl>-->
+	
+
+	<appServer>http://172.26.38.21:7099</appServer>
+	<wxgetUserUrl>http://172.26.38.21:7088/login/wxgetUser</wxgetUserUrl>
+	<testUser>test1</testUser><!--test1（保）  test2（龙）  test3(波) -->
+
+</root>

@@ -1,0 +1,7 @@
+{
+    "158aee593be": {
+        "path": "com\\bb\\base\\components\\TitleWindow.ts",
+        "class": "TitleWindow",
+        "parentPath": "resource/eui_skins/PanelSkin.exml"
+    }
+}

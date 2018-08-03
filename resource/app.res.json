@@ -1,0 +1,15 @@
+{
+	"groups": [
+		{
+			"keys": "bg.jpg",
+			"name": "preload_app"
+		}
+	],
+	"resources": [
+		{
+			"url": "assets/bg.jpg",
+			"type": "image",
+			"name": "bg.jpg"
+		}
+	]
+}
