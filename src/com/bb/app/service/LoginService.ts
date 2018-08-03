@@ -14,8 +14,11 @@ class LoginService extends egret.EventDispatcher{
             this.instance = new LoginService();
         return this.instance;
     }
-    public startLogin(uid:String,key:String){
-        SocketDataServiceFactory.getInstance().startLogin({ uid: uid,authkey:key}); 
+  
+    public startLogin(authkey:String){
+        var obj =  {};
+        obj[CmdUtil.SESSION_AUTHKEY] = authkey;
+        SocketDataServiceFactory.getInstance().startLogin(obj); 
     }
     
     public  logout():void{
@@ -78,8 +81,7 @@ class LoginService extends egret.EventDispatcher{
     }
     public currentUser:BaseUser = new BaseUser();
     private  doUserObject(obj:any):void{
-       
-        this.currentUser.uid = obj.account;
+        this.currentUser.account = obj.account;
         this.currentUser.nickName = obj.nick; 
         this.currentUser.gender = obj.sex;
         this.currentUser.logo = obj.logo;

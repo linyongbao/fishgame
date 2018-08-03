@@ -5,6 +5,7 @@
  */
 class CmdUtil {
 
+    public static   SESSION_AUTHKEY = "sessionAuthkey";
 
     /* service id */
     public static BET_SERVICE_ID = 10000;//下注服务

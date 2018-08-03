@@ -1,27 +1,23 @@
 /**
- *
+ * 下注服务
  * @author 
  *
  */
-class AppService extends egret.EventDispatcher {
-    public config:any;
-    public stage:egret.Stage;
+class BetService extends egret.EventDispatcher {
+
 	public constructor() {
         super();
 	}
-    private static instance: AppService;
-    public static getInstance(): AppService {
+    private static instance: BetService;
+    public static getInstance(): BetService {
         if(!this.instance)
-            this.instance = new AppService();
+            this.instance = new BetService();
         return this.instance;
     }
-    public initApp(){
+    public BetService(){
  
-        LoginService.getInstance().addEventListener(LoginServiceEvent.LOGIN_FAIL,this.loginFailHandler,this);
-        LoginService.getInstance().addEventListener(LoginServiceEvent.LOGIN_SUCCESS,this.loginSuccessHandler,this);
-        LoginService.getInstance().addEventListener(LoginServiceEvent.LOGIN_OUT,this.loginOutHandler,this);
-        this.startLogin();
-        
+        BetService.getInstance().addEventListener(LoginServiceEvent.LOGIN_FAIL,this.loginFailHandler,this);
+     
     }
     public setConfig(config: egret.XML): void {
         var obj: any = {};

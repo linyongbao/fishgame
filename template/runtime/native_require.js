@@ -26,7 +26,7 @@ var game_file_list = [
 	"bin-debug/com/bb/app/service/LoginService.js",
 	"bin-debug/com/bb/app/service/WindowService.js",
 	"bin-debug/com/bb/app/util/AssetsUtil.js",
-	"bin-debug/LoadingUI.js",
+	"bin-debug/com/bb/base/websocket/WebSocketEvent.js",
 	"bin-debug/com/bb/app/util/ToolUtil.js",
 	"bin-debug/com/bb/app/view/AppView.js",
 	"bin-debug/com/bb/base/components/ImageLoader.js",
@@ -40,7 +40,7 @@ var game_file_list = [
 	"bin-debug/com/bb/base/websocket/DataService.js",
 	"bin-debug/com/bb/base/websocket/ISocketDataService.js",
 	"bin-debug/com/bb/base/websocket/SocketDataServiceFactory.js",
-	"bin-debug/com/bb/base/websocket/WebSocketEvent.js",
+	"bin-debug/LoadingUI.js",
 	//----auto game_file_list end----
 ];
 

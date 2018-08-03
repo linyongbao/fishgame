@@ -162,14 +162,10 @@ var Main = (function (_super) {
         var data = loader.data;
         var configXml = egret.XML.parse(data);
         AppService.getInstance().setConfig(configXml);
-        /*
         this._loadingView.parent.removeChild(this._loadingView);
-        var self = this;
-        egret.setTimeout(function () {
-            self._appView = new AppView();
-            self.addChild(self._appView);
-            self.checkSize();
-        }, this,10);*/
+        this._appView = new AppView();
+        this.addChild(this._appView);
+        this.checkSize();
     };
     return Main;
 }(eui.UILayer));

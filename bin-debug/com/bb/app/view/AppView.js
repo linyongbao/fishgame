@@ -38,6 +38,7 @@ var AppView = (function (_super) {
             _this._topLayer.addChild(layer);
             WindowService.getInstance().cacheLayer(layer);
         }
+        AppService.getInstance().initApp();
         return _this;
     }
     AppView.prototype.updateDisplayList = function (unscaledWidth, unscaledHeight) {

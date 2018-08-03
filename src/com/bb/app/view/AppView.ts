@@ -35,6 +35,8 @@ class AppView extends eui.Component {
             WindowService.getInstance().cacheLayer(layer);
         }
 
+        AppService.getInstance().initApp();
+
     }
 
     protected updateDisplayList(unscaledWidth: number,unscaledHeight: number): void {

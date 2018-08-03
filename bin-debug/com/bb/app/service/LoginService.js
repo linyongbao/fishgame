@@ -30,8 +30,10 @@ var LoginService = (function (_super) {
             this.instance = new LoginService();
         return this.instance;
     };
-    LoginService.prototype.startLogin = function (uid, key) {
-        SocketDataServiceFactory.getInstance().startLogin({ uid: uid, authkey: key });
+    LoginService.prototype.startLogin = function (authkey) {
+        var obj = {};
+        obj[CmdUtil.SESSION_AUTHKEY] = authkey;
+        SocketDataServiceFactory.getInstance().startLogin(obj);
     };
     LoginService.prototype.logout = function () {
         SocketDataServiceFactory.getInstance().logout();
