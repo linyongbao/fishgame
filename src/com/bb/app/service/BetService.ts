@@ -5,8 +5,12 @@
  */
 class BetService extends egret.EventDispatcher {
 
+    private dataService_bet: DataService;
 	public constructor() {
         super();
+        this.dataService_bet = SocketDataServiceFactory.getInstance().createSerivce(CmdUtil.BET_SERVICE_ID);//创建服务
+        this.dataService_bet.addEventListener(DataEvent.DATA_RECEIVE, this.reveDataHandler, this);//监听服务回调的数据
+        
 	}
     private static instance: BetService;
     public static getInstance(): BetService {
@@ -14,43 +18,34 @@ class BetService extends egret.EventDispatcher {
             this.instance = new BetService();
         return this.instance;
     }
-    public BetService(){
- 
-        BetService.getInstance().addEventListener(LoginServiceEvent.LOGIN_FAIL,this.loginFailHandler,this);
-     
-    }
-    public setConfig(config: egret.XML): void {
-        var obj: any = {};
-        for (var i = 0; i < config.children.length; i++) {
-            var xmlItem: egret.XML = <egret.XML>config.children[i];
-            if (xmlItem.children != undefined && xmlItem.children)
-                obj[xmlItem.localName] = (Object)(xmlItem.children[0]).text;
+
+     private reveDataHandler(event: DataEvent) {
+        var reqData: BaseREQData = event.data;
+      
+        if (reqData.serviceId == CmdUtil.BET_SERVICE_ID) //数据包来自礼物服务的
+        {
+            switch (reqData.cmd) {
+                case CmdUtil.BET_RES:
+                    this.betRsp(reqData);
+
+                    break;
+                
+            }
         }
-        this.config = obj;
     }
-    private loginSuccessHandler(event:LoginServiceEvent):void{
-        console.info(event.toString());
-    }
-    private loginOutHandler(event:LoginServiceEvent):void{
-       console.info(event.toString());
+
+    public betRsp(data:any){
+ 
       
     }
-    private loginFailHandler(event:LoginServiceEvent):void{
-       console.info(event.toString());
- 
+    public betReq(betType,winType){
+        
+        var reqData: BaseREQData = new BaseREQData();
+        reqData.cmd = CmdUtil.BET_REQ;//
+        reqData.jsonObj = {betType:betType,winType:winType};//参数
+        this.dataService_bet.sendData(reqData);
+      
     }
-  
-    private startLogin():void{
-  
-        LoginService.getInstance().startLogin(null);
-    }
-  
-    public get appWidth():number{
-        return this.stage.stageWidth;
-    }
-    public get appHeight():number{
-         return this.stage.stageHeight;
-    }
+   
 }
 
-declare function GetQueryString(name);//可以放在 ts 文件内（建议在顶部或者底

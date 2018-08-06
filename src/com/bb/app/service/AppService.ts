@@ -34,6 +34,7 @@ class AppService extends egret.EventDispatcher {
     }
     private loginSuccessHandler(event:LoginServiceEvent):void{
         console.info(event.toString());
+        
     }
     private loginOutHandler(event:LoginServiceEvent):void{
        console.info(event.toString());

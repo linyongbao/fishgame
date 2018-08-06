@@ -20,31 +20,55 @@ var AppView = (function (_super) {
     __extends(AppView, _super);
     function AppView() {
         var _this = _super.call(this) || this;
-        _this._betScene = new BetScene();
-        _this._betScene.percentWidth = 100;
-        _this._betScene.percentHeight = 100;
-        _this.addChild(_this._betScene);
-        _this._startingPlayScene = new StartingPlayScene();
-        _this._startingPlayScene.visible = false;
-        _this._startingPlayScene.percentWidth = 100;
-        _this._startingPlayScene.percentHeight = 100;
-        _this.addChild(_this._startingPlayScene);
-        _this._topLayer = new eui.Component();
-        _this.addChild(_this._topLayer);
+        LoginService.getInstance().addEventListener(LoginServiceEvent.LOGIN_SUCCESS, _this.intApp, _this);
+        AppService.getInstance().initApp();
+        return _this;
+    }
+    AppView.prototype.intApp = function (event) {
+        if (!this._betScene) {
+            this._betScene = new BetScene();
+            this._betScene.percentWidth = 100;
+            this._betScene.percentHeight = 100;
+            this._betScene.visible = false;
+            this.addChild(this._betScene);
+        }
+        if (!this._startingPlayScene) {
+            this._startingPlayScene = new StartingPlayScene();
+            this._startingPlayScene.visible = false;
+            this._startingPlayScene.percentWidth = 100;
+            this._startingPlayScene.percentHeight = 100;
+            this.addChild(this._startingPlayScene);
+        }
+        this._topLayer = new eui.Component();
+        this.addChild(this._topLayer);
         for (var i = 0; i < 3; i++) {
             var layer = new eui.Component();
             layer.x = 0;
             layer.y = 0;
-            _this._topLayer.addChild(layer);
+            this._topLayer.addChild(layer);
             WindowService.getInstance().cacheLayer(layer);
         }
-        AppService.getInstance().initApp();
-        return _this;
-    }
+        this.setViewState(0);
+    };
+    AppView.prototype.setViewState = function (state) {
+        switch (state) {
+            case 0:
+                this._betScene.visible = true;
+                this._startingPlayScene.visible = false;
+                break;
+            case 1:
+                this._betScene.visible = false;
+                this._startingPlayScene.visible = true;
+        }
+    };
     AppView.prototype.updateDisplayList = function (unscaledWidth, unscaledHeight) {
         _super.prototype.updateDisplayList.call(this, unscaledWidth, unscaledHeight);
+        this.graphics.clear();
+        this.graphics.beginFill(0xffffff);
+        this.graphics.drawRect(0, 0, this.width, this.height);
+        this.graphics.endFill();
     };
     return AppView;
-}(eui.Component));
+}(MyComponent));
 __reflect(AppView.prototype, "AppView");
 //# sourceMappingURL=AppView.js.map

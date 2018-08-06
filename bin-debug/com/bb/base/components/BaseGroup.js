@@ -1,7 +1,3 @@
-/**
- *
- * 开始钓鱼界面
- */
 var __reflect = (this && this.__reflect) || function (p, c, t) {
     p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
 };
@@ -15,12 +11,14 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var StartingPlayScene = (function (_super) {
-    __extends(StartingPlayScene, _super);
-    function StartingPlayScene() {
+var BaseGroup = (function (_super) {
+    __extends(BaseGroup, _super);
+    function BaseGroup() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
-    return StartingPlayScene;
-}(MyComponent));
-__reflect(StartingPlayScene.prototype, "StartingPlayScene");
-//# sourceMappingURL=StartingPlayScene.js.map
+    BaseGroup.prototype.depose = function () {
+    };
+    return BaseGroup;
+}(eui.Group));
+__reflect(BaseGroup.prototype, "BaseGroup");
+//# sourceMappingURL=BaseGroup.js.map

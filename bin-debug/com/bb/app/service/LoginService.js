@@ -79,7 +79,7 @@ var LoginService = (function (_super) {
         }
     };
     LoginService.prototype.doUserObject = function (obj) {
-        this.currentUser.uid = obj.account;
+        this.currentUser.account = obj.account;
         this.currentUser.nickName = obj.nick;
         this.currentUser.gender = obj.sex;
         this.currentUser.logo = obj.logo;

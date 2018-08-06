@@ -18,9 +18,61 @@ var __extends = (this && this.__extends) || (function () {
 var BetScene = (function (_super) {
     __extends(BetScene, _super);
     function BetScene() {
-        return _super !== null && _super.apply(this, arguments) || this;
+        var _this = _super.call(this) || this;
+        _this._betTypeGroup = new HLayout();
+        _this.addChild(_this._betTypeGroup);
+        _this._betTypeRadioGroup = new eui.RadioButtonGroup();
+        _this._betType1 = new eui.RadioButton();
+        _this._betType1.selected = true;
+        _this._betType1.label = "10trx";
+        _this._betType1.value = "10-trx";
+        _this._betType1.group = _this._betTypeRadioGroup;
+        _this._betTypeGroup.addChild(_this._betType1);
+        _this._betType2 = new eui.RadioButton();
+        _this._betType2.label = "100trx";
+        _this._betType2.value = "100-trx";
+        _this._betType2.group = _this._betTypeRadioGroup;
+        _this._betTypeGroup.addChild(_this._betType2);
+        _this._betType3 = new eui.RadioButton();
+        _this._betType3.label = "1000trx";
+        _this._betType3.value = "1000-trx";
+        _this._betType3.group = _this._betTypeRadioGroup;
+        _this._betTypeGroup.addChild(_this._betType3);
+        _this._winTypeGroup = new HLayout();
+        _this._winTypeGroup.y = 100;
+        _this.addChild(_this._winTypeGroup);
+        _this._winTypeRadioGroup = new eui.RadioButtonGroup();
+        _this._winType1 = new eui.RadioButton();
+        _this._winType1.selected = true;
+        _this._winType1.label = "左赢";
+        _this._winType1.value = 0;
+        _this._winType1.group = _this._winTypeRadioGroup;
+        _this._winTypeGroup.addChild(_this._winType1);
+        _this._winType2 = new eui.RadioButton();
+        _this._winType2.selected = true;
+        _this._winType2.label = "平";
+        _this._winType2.value = 1;
+        _this._winType2.group = _this._winTypeRadioGroup;
+        _this._winTypeGroup.addChild(_this._winType2);
+        _this._winType3 = new eui.RadioButton();
+        _this._winType3.selected = true;
+        _this._winType3.label = "右赢";
+        _this._winType3.value = 2;
+        _this._winType3.group = _this._winTypeRadioGroup;
+        _this._winTypeGroup.addChild(_this._winType3);
+        _this._betButton = new eui.Button();
+        _this._betButton.addEventListener(egret.TouchEvent.TOUCH_END, _this.betHandler, _this);
+        _this._betButton.y = 200;
+        _this._betButton.label = "下注";
+        _this.addChild(_this._betButton);
+        return _this;
     }
+    BetScene.prototype.betHandler = function (event) {
+        var betValueType = this._betTypeRadioGroup.selectedValue;
+        var winType = this._winTypeRadioGroup.selectedValue;
+        BetService.getInstance().betReq(betValueType, winType);
+    };
     return BetScene;
-}(eui.Component));
+}(MyComponent));
 __reflect(BetScene.prototype, "BetScene");
 //# sourceMappingURL=BetScene.js.map

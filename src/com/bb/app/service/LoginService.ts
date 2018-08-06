@@ -36,7 +36,6 @@ class LoginService extends egret.EventDispatcher{
     
     protected  connectSuccessHandler(event:WebSocketEvent):void
 	{
-         
          this.loginResult(event.data);
     }	
     
