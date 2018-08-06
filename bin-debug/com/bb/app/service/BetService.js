@@ -36,6 +36,12 @@ var BetService = (function (_super) {
                 case CmdUtil.BET_RES:
                     this.betRsp(reqData);
                     break;
+                case CmdUtil.BET_ROUND_RSP:
+                    this.getCurrentBetRoundRsp(reqData);
+                    break;
+                case CmdUtil.BET_ROUND_BRO:
+                    this.getCurrentBetRoundRsp(reqData);
+                    break;
             }
         }
     };
@@ -46,6 +52,17 @@ var BetService = (function (_super) {
         reqData.cmd = CmdUtil.BET_REQ; //
         reqData.jsonObj = { betType: betType, winType: winType }; //参数
         this.dataService_bet.sendData(reqData);
+    };
+    BetService.prototype.getCurrentBetRoundReq = function () {
+        var reqData = new BaseREQData();
+        reqData.cmd = CmdUtil.BET_ROUND_REQ; //
+        reqData.jsonObj = {}; //参数
+        this.dataService_bet.sendData(reqData);
+    };
+    BetService.prototype.getCurrentBetRoundRsp = function (data) {
+        var event = new BetServiceEvent(BetServiceEvent.CURRENT_BET_COUND_DETAIL);
+        event.data = data;
+        this.dispatchEvent(event);
     };
     return BetService;
 }(egret.EventDispatcher));

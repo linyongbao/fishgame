@@ -22,19 +22,27 @@ class BetService extends egret.EventDispatcher {
      private reveDataHandler(event: DataEvent) {
         var reqData: BaseREQData = event.data;
       
-        if (reqData.serviceId == CmdUtil.BET_SERVICE_ID) //数据包来自礼物服务的
+        if (reqData.serviceId == CmdUtil.BET_SERVICE_ID) //
         {
             switch (reqData.cmd) {
                 case CmdUtil.BET_RES:
                     this.betRsp(reqData);
 
                     break;
-                
+                case CmdUtil.BET_ROUND_RSP:
+                    this.getCurrentBetRoundRsp(reqData);
+
+                    break;
+                 case CmdUtil.BET_ROUND_BRO:
+                    this.getCurrentBetRoundRsp(reqData);
+
+                    break;
             }
         }
+       
     }
 
-    public betRsp(data:any){
+    private betRsp(data:any){
  
       
     }
@@ -46,6 +54,21 @@ class BetService extends egret.EventDispatcher {
         this.dataService_bet.sendData(reqData);
       
     }
+    public getCurrentBetRoundReq(){
+        
+        var reqData: BaseREQData = new BaseREQData();
+        reqData.cmd = CmdUtil.BET_ROUND_REQ;//
+        reqData.jsonObj = {};//参数
+        this.dataService_bet.sendData(reqData);
+      
+    }
+
+     private getCurrentBetRoundRsp(data:any){
+        var event:BetServiceEvent = new BetServiceEvent(BetServiceEvent.CURRENT_BET_COUND_DETAIL);
+        event.data = data;
+        this.dispatchEvent(event);
+    }
+   
    
 }
 

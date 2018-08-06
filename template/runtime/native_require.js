@@ -12,10 +12,11 @@ var game_file_list = [
 	"libsrc/socket/bin/socket.io/socket.io.js",
 	"promise/bin/promise.js",
 	"bin-debug/com/bb/base/components/MyComponent.js",
-	"bin-debug/com/bb/base/components/TitleWindow.js",
 	"bin-debug/com/bb/base/websocket/BaseDataService.js",
-	"bin-debug/com/bb/app/view/AppView.js",
+	"bin-debug/com/bb/base/components/TitleWindow.js",
+	"bin-debug/com/bb/app/util/ToolUtil.js",
 	"bin-debug/com/bb/app/component/Alert.js",
+	"bin-debug/com/bb/app/event/BetServiceEvent.js",
 	"bin-debug/com/bb/app/event/LoginServiceEvent.js",
 	"bin-debug/com/bb/app/event/UserInfoUpdateEvent..js",
 	"bin-debug/com/bb/app/module/rank/RankInfoModule.js",
@@ -28,8 +29,8 @@ var game_file_list = [
 	"bin-debug/com/bb/app/service/WindowService.js",
 	"bin-debug/com/bb/app/util/AssetsUtil.js",
 	"bin-debug/com/bb/app/util/CmdUtil.js",
-	"bin-debug/com/bb/app/util/ToolUtil.js",
-	"bin-debug/LoadingUI.js",
+	"bin-debug/com/bb/base/websocket/WebSocketEvent.js",
+	"bin-debug/com/bb/app/view/AppView.js",
 	"bin-debug/com/bb/base/components/BaseGroup.js",
 	"bin-debug/com/bb/base/components/HLayout.js",
 	"bin-debug/com/bb/base/components/ImageLoader.js",
@@ -46,7 +47,7 @@ var game_file_list = [
 	"bin-debug/com/bb/base/websocket/DataService.js",
 	"bin-debug/com/bb/base/websocket/ISocketDataService.js",
 	"bin-debug/com/bb/base/websocket/SocketDataServiceFactory.js",
-	"bin-debug/com/bb/base/websocket/WebSocketEvent.js",
+	"bin-debug/LoadingUI.js",
 	//----auto game_file_list end----
 ];
 
