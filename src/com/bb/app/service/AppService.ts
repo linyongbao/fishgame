@@ -6,6 +6,7 @@
 class AppService extends egret.EventDispatcher {
     public config:any;
     public stage:egret.Stage;
+    private dataService_bet: DataService;
 	public constructor() {
         super();
 	}
@@ -20,9 +21,12 @@ class AppService extends egret.EventDispatcher {
         LoginService.getInstance().addEventListener(LoginServiceEvent.LOGIN_FAIL,this.loginFailHandler,this);
         LoginService.getInstance().addEventListener(LoginServiceEvent.LOGIN_SUCCESS,this.loginSuccessHandler,this);
         LoginService.getInstance().addEventListener(LoginServiceEvent.LOGIN_OUT,this.loginOutHandler,this);
+
+      
         this.startLogin();
         
     }
+ 
     public setConfig(config: egret.XML): void {
         var obj: any = {};
         for (var i = 0; i < config.children.length; i++) {

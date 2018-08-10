@@ -31,26 +31,40 @@ var BetService = (function (_super) {
     };
     BetService.prototype.reveDataHandler = function (event) {
         var reqData = event.data;
+        var betServiceEvent;
         if (reqData.serviceId == CmdUtil.BET_SERVICE_ID) {
             switch (reqData.cmd) {
-                case CmdUtil.BET_RES:
+                case CmdUtil.MY_BET_RSP:
                     this.betRsp(reqData);
                     break;
                 case CmdUtil.BET_ROUND_RSP:
                     this.getCurrentBetRoundRsp(reqData);
                     break;
                 case CmdUtil.BET_ROUND_BRO:
-                    this.getCurrentBetRoundRsp(reqData);
+                    this.currentBetRoundRro(reqData);
+                    break;
+                case CmdUtil.PLAY_START_BRO:
+                    //开始游戏通知，用户切换界面
+                    betServiceEvent = new BetServiceEvent(BetServiceEvent.PLAY_START);
+                    this.dispatchEvent(betServiceEvent);
+                    break;
+                case CmdUtil.PLAY_END_BRO:
+                    //结束游戏通知，用户切换界面
+                    betServiceEvent = new BetServiceEvent(BetServiceEvent.PLAY_END);
+                    this.dispatchEvent(betServiceEvent);
                     break;
             }
         }
     };
     BetService.prototype.betRsp = function (data) {
+        var event = new BetServiceEvent(BetServiceEvent.BET_RSP);
+        event.data = data;
+        this.dispatchEvent(event);
     };
-    BetService.prototype.betReq = function (betType, winType) {
+    BetService.prototype.betReq = function (betData) {
         var reqData = new BaseREQData();
-        reqData.cmd = CmdUtil.BET_REQ; //
-        reqData.jsonObj = { betType: betType, winType: winType }; //参数
+        reqData.cmd = CmdUtil.MY_BET_REQ; //
+        reqData.jsonObj = betData; //
         this.dataService_bet.sendData(reqData);
     };
     BetService.prototype.getCurrentBetRoundReq = function () {
@@ -60,7 +74,12 @@ var BetService = (function (_super) {
         this.dataService_bet.sendData(reqData);
     };
     BetService.prototype.getCurrentBetRoundRsp = function (data) {
-        var event = new BetServiceEvent(BetServiceEvent.CURRENT_BET_COUND_DETAIL);
+        var event = new BetServiceEvent(BetServiceEvent.GET_CURRENT_BET_COUND_RSP);
+        event.data = data;
+        this.dispatchEvent(event);
+    };
+    BetService.prototype.currentBetRoundRro = function (data) {
+        var event = new BetServiceEvent(BetServiceEvent.CURRENT_BET_COUND_BRO);
         event.data = data;
         this.dispatchEvent(event);
     };

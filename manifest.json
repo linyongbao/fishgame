@@ -21,6 +21,7 @@
 		"bin-debug/com/bb/app/event/UserInfoUpdateEvent..js",
 		"bin-debug/com/bb/app/module/rank/RankInfoModule.js",
 		"bin-debug/com/bb/app/obj/BaseUser.js",
+		"bin-debug/com/bb/app/obj/BetReqData.js",
 		"bin-debug/com/bb/app/scene/BetScene.js",
 		"bin-debug/com/bb/app/scene/StartingPlayScene.js",
 		"bin-debug/com/bb/app/service/AppService.js",

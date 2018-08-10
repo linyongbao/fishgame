@@ -49,6 +49,35 @@ var AppView = (function (_super) {
             WindowService.getInstance().cacheLayer(layer);
         }
         this.setViewState(0);
+        BetService.getInstance().addEventListener(BetServiceEvent.GET_CURRENT_BET_COUND_RSP, this.getBetRoundRspHandler, this);
+        BetService.getInstance().addEventListener(BetServiceEvent.PLAY_START, this.playStartHandler, this);
+        BetService.getInstance().addEventListener(BetServiceEvent.PLAY_END, this.playEndHandler, this);
+        BetService.getInstance().getCurrentBetRoundReq();
+    };
+    AppView.prototype.playStartHandler = function (event) {
+        //播放动画
+        egret.setTimeout(this.playStartEendHandler, this, 9000);
+    };
+    AppView.prototype.playStartEendHandler = function () {
+        this.setViewState(1);
+    };
+    AppView.prototype.playEndHandler = function (event) {
+        //播放动画
+        egret.setTimeout(this.playEndEndHandler, this, 9000);
+    };
+    AppView.prototype.playEndEndHandler = function () {
+        this.setViewState(0);
+    };
+    AppView.prototype.getBetRoundRspHandler = function (event) {
+        var data = event.data;
+        var jsonData = data.jsonObj;
+        var currentBetRound = jsonData.currentBetRound;
+        if (currentBetRound.state == 0) {
+            this.setViewState(0);
+        }
+        else if (currentBetRound.state == 1) {
+            this.setViewState(1);
+        }
     };
     AppView.prototype.setViewState = function (state) {
         switch (state) {

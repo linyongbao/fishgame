@@ -23,7 +23,11 @@ var BetServiceEvent = (function (_super) {
         if (cancelable === void 0) { cancelable = false; }
         return _super.call(this, type, bubbles, cancelable, null) || this;
     }
-    BetServiceEvent.CURRENT_BET_COUND_DETAIL = "CURRENT_BET_COUND_DETAIL";
+    BetServiceEvent.GET_CURRENT_BET_COUND_RSP = "GET_CURRENT_BET_COUND_RSP";
+    BetServiceEvent.CURRENT_BET_COUND_BRO = "CURRENT_BET_COUND_BRO";
+    BetServiceEvent.BET_RSP = "BET_RSP";
+    BetServiceEvent.PLAY_START = "PLAY_START";
+    BetServiceEvent.PLAY_END = "PLAY_END";
     return BetServiceEvent;
 }(egret.Event));
 __reflect(BetServiceEvent.prototype, "BetServiceEvent");

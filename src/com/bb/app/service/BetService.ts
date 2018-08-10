@@ -21,11 +21,11 @@ class BetService extends egret.EventDispatcher {
 
      private reveDataHandler(event: DataEvent) {
         var reqData: BaseREQData = event.data;
-      
+        var betServiceEvent : BetServiceEvent;
         if (reqData.serviceId == CmdUtil.BET_SERVICE_ID) //
         {
             switch (reqData.cmd) {
-                case CmdUtil.BET_RES:
+                case CmdUtil.MY_BET_RSP:
                     this.betRsp(reqData);
 
                     break;
@@ -34,23 +34,37 @@ class BetService extends egret.EventDispatcher {
 
                     break;
                  case CmdUtil.BET_ROUND_BRO:
-                    this.getCurrentBetRoundRsp(reqData);
+                    this.currentBetRoundRro(reqData);
 
                     break;
+
+               case CmdUtil.PLAY_START_BRO:
+                    //开始游戏通知，用户切换界面
+                    betServiceEvent  = new BetServiceEvent(BetServiceEvent.PLAY_START);
+                    this.dispatchEvent(betServiceEvent);
+                    break;
+               case CmdUtil.PLAY_END_BRO:
+                    //结束游戏通知，用户切换界面
+                   betServiceEvent  = new BetServiceEvent(BetServiceEvent.PLAY_END);
+                   this.dispatchEvent(betServiceEvent);
+                   break;
+
             }
         }
        
     }
 
     private betRsp(data:any){
- 
+        var event:BetServiceEvent = new BetServiceEvent(BetServiceEvent.BET_RSP);
+        event.data = data;
+        this.dispatchEvent(event);
       
     }
-    public betReq(betType,winType){
+    public betReq(betData:any){
         
         var reqData: BaseREQData = new BaseREQData();
-        reqData.cmd = CmdUtil.BET_REQ;//
-        reqData.jsonObj = {betType:betType,winType:winType};//参数
+        reqData.cmd = CmdUtil.MY_BET_REQ;//
+        reqData.jsonObj = betData;//
         this.dataService_bet.sendData(reqData);
       
     }
@@ -63,8 +77,13 @@ class BetService extends egret.EventDispatcher {
       
     }
 
-     private getCurrentBetRoundRsp(data:any){
-        var event:BetServiceEvent = new BetServiceEvent(BetServiceEvent.CURRENT_BET_COUND_DETAIL);
+    private getCurrentBetRoundRsp(data:any){
+        var event:BetServiceEvent = new BetServiceEvent(BetServiceEvent.GET_CURRENT_BET_COUND_RSP);
+        event.data = data;
+        this.dispatchEvent(event);
+    }
+    private currentBetRoundRro(data:any){
+        var event:BetServiceEvent = new BetServiceEvent(BetServiceEvent.CURRENT_BET_COUND_BRO);
         event.data = data;
         this.dispatchEvent(event);
     }

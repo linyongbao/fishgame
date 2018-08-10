@@ -13,15 +13,15 @@ class BetScene extends MyComponent {
     private _betType2: eui.RadioButton;
     private _betType3: eui.RadioButton;
 
-    private _winTypeRadioGroup: eui.RadioButtonGroup;
-    private _winType1: eui.RadioButton;
-    private _winType2: eui.RadioButton;
-    private _winType3: eui.RadioButton;
+    private _winType1: eui.Button;
+    private _winType2: eui.Button;
+    private _winType3: eui.Button;
     private _winTypeGroup: VLayout;
 
-    private _titleLabel : eui.Label;
-    private _timeLabel : eui.Label;
+    private _titleLabel: eui.Label;
+    private _timeLabel: eui.Label;
     private _betButton: eui.Button;
+    private _cancelButton: eui.Button;
     public constructor() {
         super();
 
@@ -53,81 +53,108 @@ class BetScene extends MyComponent {
         this._winTypeGroup.y = 100;
         this.addChild(this._winTypeGroup);
 
-        this._winTypeRadioGroup = new eui.RadioButtonGroup();
-        this._winType1 = new eui.RadioButton();
-        this._winType1.selected = true;
+
+        this._winType1 = new eui.Button();
+        this._winType1.addEventListener(egret.TouchEvent.TOUCH_END, this.betHandler, this)
         this._winType1.label = "左赢";
-        this._winType1.value = 0;
-        this._winType1.group = this._winTypeRadioGroup;
         this._winTypeGroup.addChild(this._winType1);
 
-        this._winType2 = new eui.RadioButton();
-        this._winType2.selected = true;
+        this._winType2 = new eui.Button();
+        this._winType2.addEventListener(egret.TouchEvent.TOUCH_END, this.betHandler, this)
         this._winType2.label = "平";
-        this._winType2.value = 1;
-        this._winType2.group = this._winTypeRadioGroup;
         this._winTypeGroup.addChild(this._winType2);
 
-        this._winType3 = new eui.RadioButton();
-        this._winType3.selected = true;
+        this._winType3 = new eui.Button();
+        this._winType3.addEventListener(egret.TouchEvent.TOUCH_END, this.betHandler, this)
         this._winType3.label = "右赢";
-        this._winType3.value = 2;
-        this._winType3.group = this._winTypeRadioGroup;
         this._winTypeGroup.addChild(this._winType3);
 
 
-        this._betButton = new eui.Button();
-        this._betButton.addEventListener(egret.TouchEvent.TOUCH_END, this.betHandler, this)
-        this._betButton.y = 200;
-        this._betButton.label = "下注";
-        this.addChild(this._betButton);
 
+        this._cancelButton = new eui.Button();
+        this._cancelButton.addEventListener(egret.TouchEvent.TOUCH_END, this.betCancelHandler, this)
+        this._cancelButton.y = 400;
+        this._cancelButton.label = "重置下注";
+        this.addChild(this._cancelButton);
 
         this._titleLabel = new eui.Label();
         this._titleLabel.textColor = 0xff0000;
         this._titleLabel.x = 300;
-        this._titleLabel.text = "当前阶段 : ";
+        this._titleLabel.text = "当前阶段 : 下注";
         this.addChild(this._titleLabel);
 
         this._timeLabel = new eui.Label();
         this._timeLabel.textColor = 0xff0000;
         this._timeLabel.x = 300;
-        this._timeLabel.y= 100;
+        this._timeLabel.y = 100;
         this._timeLabel.text = "";
         this.addChild(this._timeLabel);
 
-        
-        BetService.getInstance().addEventListener(BetServiceEvent.CURRENT_BET_COUND_DETAIL,this.currentBetRoundDetailHandler,this);
-        BetService.getInstance().getCurrentBetRoundReq();
+        BetService.getInstance().addEventListener(BetServiceEvent.BET_RSP, this.betRspHandler, this);
+        BetService.getInstance().addEventListener(BetServiceEvent.GET_CURRENT_BET_COUND_RSP, this.getBetRoundRspHandler, this);
+        BetService.getInstance().addEventListener(BetServiceEvent.CURRENT_BET_COUND_BRO, this.currentBetRoundBroHandler, this);
 
     }
+    private betRspHandler(event: BetServiceEvent): void {
+        var data: any = event.data;
+        var jsonData: any = data.jsonObj;
+        if (data.code == 0) {
+            this._winType1.label = "左赢:" + jsonData.betCount1;
+            this._winType2.label = "平:" + jsonData.betCount2;
+            this._winType3.label = "右赢:" + jsonData.betCount3;
+        }
+    }
 
-    private currentBetRoundDetailHandler(event : BetServiceEvent):void{
+    private currentBetRoundBroHandler(event: BetServiceEvent): void {
+        var data: any = event.data;
+        var jsonData: any = data.jsonObj;
+
+        this.doCurrentBetRound(jsonData);
+
+    }
+    private getBetRoundRspHandler(event: BetServiceEvent): void {
 
         var data: any = event.data;
-        var jsonData:any = data.jsonObj;
-        if(jsonData.state == 0)
-        {
-            this._titleLabel.text = "当前阶段 : 投注阶段，请投注";
-            this._timeLabel.text = jsonData.betTimeLeft + "秒";
-        }
-        else if(jsonData.state == 1)
-        {
-            this._titleLabel.text = "当前阶段 : 钓鱼中";
-            this._timeLabel.text = jsonData.gameTimeLeft + "秒";
-        }
-        else if(jsonData.state == 2)
-        {
-            this._titleLabel.text = "当前阶段 : 结算中";
-            this._timeLabel.text = "";
-        }
+        var jsonData: any = data.jsonObj;
+        var currentBetRound: any = jsonData.currentBetRound;
+        this.doCurrentBetRound(currentBetRound);
     }
+    private doCurrentBetRound(currentBetRound: any) {
+
+        if (currentBetRound.state == 0) {
+            this._titleLabel.text = "当前阶段 : 投注阶段，请投注";
+            this._timeLabel.text = currentBetRound.betTimeLeft + "秒";
+        }
+
+
+    }
+    private betReqData: BetReqData;
     private betHandler(event: egret.TouchEvent) {
+        var betValueType: string = this._betTypeRadioGroup.selectedValue;
+        var betCount: number = parseInt(betValueType.split("-")[0]);
+        var moneyType: string = betValueType.split("-")[1];
+        this.betReqData = new BetReqData();
+        if (this._winType1 == event.currentTarget) {
 
-        var betValueType: number = this._betTypeRadioGroup.selectedValue;
-        var winType: number = this._winTypeRadioGroup.selectedValue;
+            this.betReqData.betCount1 = this.betReqData.betCount1 + betCount;
+        }
+        else if (this._winType2 == event.currentTarget) {
 
-        BetService.getInstance().betReq(betValueType, winType);
+            this.betReqData.betCount2 = this.betReqData.betCount2 + betCount;
+        }
+        else if (this._winType3 == event.currentTarget) {
+
+            this.betReqData.betCount3 = this.betReqData.betCount3 + betCount;
+        }
+        this.betReqData.moneyType = moneyType;
+        BetService.getInstance().betReq(this.betReqData);
+
+    }
+
+
+    private betCancelHandler(event: egret.TouchEvent) {
+
+
     }
 
 }

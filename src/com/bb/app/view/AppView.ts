@@ -8,11 +8,14 @@ class AppView extends MyComponent {
     private _betScene: BetScene;
     private _startingPlayScene: StartingPlayScene;
     private _topLayer: eui.Component;
+
     public constructor() {
         super();
 
+
         LoginService.getInstance().addEventListener(LoginServiceEvent.LOGIN_SUCCESS, this.intApp, this);
         AppService.getInstance().initApp();
+
 
     }
 
@@ -47,8 +50,41 @@ class AppView extends MyComponent {
 
         this.setViewState(0);
 
-    }
 
+        BetService.getInstance().addEventListener(BetServiceEvent.GET_CURRENT_BET_COUND_RSP, this.getBetRoundRspHandler, this);
+        BetService.getInstance().addEventListener(BetServiceEvent.PLAY_START, this.playStartHandler, this);
+        BetService.getInstance().addEventListener(BetServiceEvent.PLAY_END, this.playEndHandler, this);
+        BetService.getInstance().getCurrentBetRoundReq();
+    }
+    private playStartHandler(event: BetServiceEvent): void {
+        //播放动画
+       egret.setTimeout(this.playStartEendHandler,this,9000);
+    }
+    private playStartEendHandler(): void {
+       
+        this.setViewState(1);
+    }
+    private playEndHandler(event: BetServiceEvent): void {
+        //播放动画
+        egret.setTimeout(this.playEndEndHandler,this,9000);
+    }
+    private playEndEndHandler(): void {
+       
+        this.setViewState(0);
+    }
+    private getBetRoundRspHandler(event: BetServiceEvent): void {
+
+        var data: any = event.data;
+        var jsonData: any = data.jsonObj;
+        var currentBetRound: any = jsonData.currentBetRound;
+         if (currentBetRound.state == 0) {
+            this.setViewState(0);
+        }
+        else if (currentBetRound.state == 1) {
+            this.setViewState(1);
+        }
+    }
+ 
     public setViewState(state: number): void {
         switch (state) {
             case 0:

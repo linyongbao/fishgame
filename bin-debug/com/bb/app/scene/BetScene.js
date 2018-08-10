@@ -41,34 +41,27 @@ var BetScene = (function (_super) {
         _this._winTypeGroup = new VLayout();
         _this._winTypeGroup.y = 100;
         _this.addChild(_this._winTypeGroup);
-        _this._winTypeRadioGroup = new eui.RadioButtonGroup();
-        _this._winType1 = new eui.RadioButton();
-        _this._winType1.selected = true;
+        _this._winType1 = new eui.Button();
+        _this._winType1.addEventListener(egret.TouchEvent.TOUCH_END, _this.betHandler, _this);
         _this._winType1.label = "左赢";
-        _this._winType1.value = 0;
-        _this._winType1.group = _this._winTypeRadioGroup;
         _this._winTypeGroup.addChild(_this._winType1);
-        _this._winType2 = new eui.RadioButton();
-        _this._winType2.selected = true;
+        _this._winType2 = new eui.Button();
+        _this._winType2.addEventListener(egret.TouchEvent.TOUCH_END, _this.betHandler, _this);
         _this._winType2.label = "平";
-        _this._winType2.value = 1;
-        _this._winType2.group = _this._winTypeRadioGroup;
         _this._winTypeGroup.addChild(_this._winType2);
-        _this._winType3 = new eui.RadioButton();
-        _this._winType3.selected = true;
+        _this._winType3 = new eui.Button();
+        _this._winType3.addEventListener(egret.TouchEvent.TOUCH_END, _this.betHandler, _this);
         _this._winType3.label = "右赢";
-        _this._winType3.value = 2;
-        _this._winType3.group = _this._winTypeRadioGroup;
         _this._winTypeGroup.addChild(_this._winType3);
-        _this._betButton = new eui.Button();
-        _this._betButton.addEventListener(egret.TouchEvent.TOUCH_END, _this.betHandler, _this);
-        _this._betButton.y = 200;
-        _this._betButton.label = "下注";
-        _this.addChild(_this._betButton);
+        _this._cancelButton = new eui.Button();
+        _this._cancelButton.addEventListener(egret.TouchEvent.TOUCH_END, _this.betCancelHandler, _this);
+        _this._cancelButton.y = 400;
+        _this._cancelButton.label = "重置下注";
+        _this.addChild(_this._cancelButton);
         _this._titleLabel = new eui.Label();
         _this._titleLabel.textColor = 0xff0000;
         _this._titleLabel.x = 300;
-        _this._titleLabel.text = "当前阶段 : ";
+        _this._titleLabel.text = "当前阶段 : 下注";
         _this.addChild(_this._titleLabel);
         _this._timeLabel = new eui.Label();
         _this._timeLabel.textColor = 0xff0000;
@@ -76,30 +69,55 @@ var BetScene = (function (_super) {
         _this._timeLabel.y = 100;
         _this._timeLabel.text = "";
         _this.addChild(_this._timeLabel);
-        BetService.getInstance().addEventListener(BetServiceEvent.CURRENT_BET_COUND_DETAIL, _this.currentBetRoundDetailHandler, _this);
-        BetService.getInstance().getCurrentBetRoundReq();
+        BetService.getInstance().addEventListener(BetServiceEvent.BET_RSP, _this.betRspHandler, _this);
+        BetService.getInstance().addEventListener(BetServiceEvent.GET_CURRENT_BET_COUND_RSP, _this.getBetRoundRspHandler, _this);
+        BetService.getInstance().addEventListener(BetServiceEvent.CURRENT_BET_COUND_BRO, _this.currentBetRoundBroHandler, _this);
         return _this;
     }
-    BetScene.prototype.currentBetRoundDetailHandler = function (event) {
+    BetScene.prototype.betRspHandler = function (event) {
         var data = event.data;
         var jsonData = data.jsonObj;
-        if (jsonData.state == 0) {
+        if (data.code == 0) {
+            this._winType1.label = "左赢:" + jsonData.betCount1;
+            this._winType2.label = "平:" + jsonData.betCount2;
+            this._winType3.label = "右赢:" + jsonData.betCount3;
+        }
+    };
+    BetScene.prototype.currentBetRoundBroHandler = function (event) {
+        var data = event.data;
+        var jsonData = data.jsonObj;
+        this.doCurrentBetRound(jsonData);
+    };
+    BetScene.prototype.getBetRoundRspHandler = function (event) {
+        var data = event.data;
+        var jsonData = data.jsonObj;
+        var currentBetRound = jsonData.currentBetRound;
+        this.doCurrentBetRound(currentBetRound);
+    };
+    BetScene.prototype.doCurrentBetRound = function (currentBetRound) {
+        if (currentBetRound.state == 0) {
             this._titleLabel.text = "当前阶段 : 投注阶段，请投注";
-            this._timeLabel.text = jsonData.betTimeLeft + "秒";
-        }
-        else if (jsonData.state == 1) {
-            this._titleLabel.text = "当前阶段 : 钓鱼中";
-            this._timeLabel.text = jsonData.gameTimeLeft + "秒";
-        }
-        else if (jsonData.state == 2) {
-            this._titleLabel.text = "当前阶段 : 游戏结束，";
-            this._timeLabel.text = "";
+            this._timeLabel.text = currentBetRound.betTimeLeft + "秒";
         }
     };
     BetScene.prototype.betHandler = function (event) {
         var betValueType = this._betTypeRadioGroup.selectedValue;
-        var winType = this._winTypeRadioGroup.selectedValue;
-        BetService.getInstance().betReq(betValueType, winType);
+        var betCount = parseInt(betValueType.split("-")[0]);
+        var moneyType = betValueType.split("-")[1];
+        this.betReqData = new BetReqData();
+        if (this._winType1 == event.currentTarget) {
+            this.betReqData.betCount1 = this.betReqData.betCount1 + betCount;
+        }
+        else if (this._winType2 == event.currentTarget) {
+            this.betReqData.betCount2 = this.betReqData.betCount2 + betCount;
+        }
+        else if (this._winType3 == event.currentTarget) {
+            this.betReqData.betCount3 = this.betReqData.betCount3 + betCount;
+        }
+        this.betReqData.moneyType = moneyType;
+        BetService.getInstance().betReq(this.betReqData);
+    };
+    BetScene.prototype.betCancelHandler = function (event) {
     };
     return BetScene;
 }(MyComponent));

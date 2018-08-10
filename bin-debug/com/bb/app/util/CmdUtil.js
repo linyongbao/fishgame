@@ -15,15 +15,16 @@ var CmdUtil = (function () {
     CmdUtil.USER_SERVICE_ID = 10001; //用户服务
     CmdUtil.PLAYING_SERVICE_ID = 10002; //正在玩服务
     /* cmd id */
-    CmdUtil.BET_REQ = 100; //下注请求
-    CmdUtil.BET_RES = 101; //下注返回
+    CmdUtil.MY_BET_REQ = 100; //下注请求
+    CmdUtil.MY_BET_RSP = 101; //下注返回
+    CmdUtil.BET_BRO = 102; //下注广播
     CmdUtil.BET_ROUND_REQ = 201; //请求当前详情
     CmdUtil.BET_ROUND_RSP = 202; //请求当前详情
     CmdUtil.BET_ROUND_BRO = 203; //当前下注详情广播
     CmdUtil.PLAY_START_BRO = 301; //游戏开始
     CmdUtil.PLAY_END_BRO = 302; //游戏结束
     CmdUtil.GET_USER_DATA_REQ = 401; //请求用户信息
-    CmdUtil.GET_USER_DATA_RES = 402; //请求用户信息返回
+    CmdUtil.GET_USER_DATA_RSP = 402; //请求用户信息返回
     CmdUtil.UPDATE_USER_DATA_BRO = 403; //用户信息更新
     return CmdUtil;
 }());
