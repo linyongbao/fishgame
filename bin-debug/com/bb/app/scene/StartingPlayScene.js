@@ -19,20 +19,35 @@ var StartingPlayScene = (function (_super) {
     __extends(StartingPlayScene, _super);
     function StartingPlayScene() {
         var _this = _super.call(this) || this;
-        _this._titleLabel = new eui.Label();
-        _this._titleLabel.textColor = 0xff0000;
-        _this._titleLabel.x = 300;
-        _this._titleLabel.text = "当前阶段 : 钓鱼中";
-        _this.addChild(_this._titleLabel);
-        _this._timeLabel = new eui.Label();
-        _this._timeLabel.textColor = 0xff0000;
-        _this._timeLabel.x = 300;
-        _this._timeLabel.y = 100;
-        _this._timeLabel.text = "";
-        _this.addChild(_this._timeLabel);
+        _this._baseUI = new MyComponent();
+        _this.addChild(_this._baseUI);
+        _this._leftDog = new LeftDogPlaying();
+        _this._leftDog.width = 200;
+        _this._rightDog = new RightDogPlaying();
+        _this._rightDog.width = 200;
+        _this._baseUI.addChild(_this._leftDog);
+        _this._baseUI.addChild(_this._rightDog);
+        var label = new eui.Label();
+        label.text = "正在钓鱼";
+        label.textColor = 0x00ff00;
+        label.x = 100;
+        label.y = 20;
+        _this._baseUI.addChild(label);
         BetService.getInstance().addEventListener(BetServiceEvent.CURRENT_BET_COUND_BRO, _this.currentBetRoundBroHandler, _this);
         return _this;
     }
+    StartingPlayScene.prototype.reSize = function (w, h) {
+        this._baseUI.width = w;
+        this._baseUI.height = h;
+        this._leftDog.x = 50;
+        this._rightDog.x = (this._baseUI.width - this._rightDog.width) - 50;
+        this._leftDog.y = 150;
+        this._rightDog.y = 150;
+    };
+    StartingPlayScene.prototype.updateDisplayList = function (unscaledWidth, unscaledHeight) {
+        _super.prototype.updateDisplayList.call(this, unscaledWidth, unscaledHeight);
+        this.reSize(unscaledWidth, unscaledHeight);
+    };
     StartingPlayScene.prototype.currentBetRoundBroHandler = function (event) {
         var data = event.data;
         var jsonData = data.jsonObj;
@@ -46,8 +61,6 @@ var StartingPlayScene = (function (_super) {
     };
     StartingPlayScene.prototype.doCurrentBetRound = function (currentBetRound) {
         if (currentBetRound.state == 1) {
-            this._titleLabel.text = "当前阶段 : 钓鱼中";
-            this._timeLabel.text = currentBetRound.gameTimeLeft + "秒";
         }
     };
     return StartingPlayScene;

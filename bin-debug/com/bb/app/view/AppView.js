@@ -25,6 +25,13 @@ var AppView = (function (_super) {
         return _this;
     }
     AppView.prototype.intApp = function (event) {
+        if (!this._gameScene) {
+            this._gameScene = new GameScene();
+            this._gameScene.percentWidth = 100;
+            this._gameScene.percentHeight = 100;
+            this._gameScene.visible = true;
+            this.addChild(this._gameScene);
+        }
         if (!this._betScene) {
             this._betScene = new BetScene();
             this._betScene.percentWidth = 100;
@@ -56,16 +63,9 @@ var AppView = (function (_super) {
     };
     AppView.prototype.playStartHandler = function (event) {
         //播放动画
-        egret.setTimeout(this.playStartEendHandler, this, 9000);
-    };
-    AppView.prototype.playStartEendHandler = function () {
         this.setViewState(1);
     };
     AppView.prototype.playEndHandler = function (event) {
-        //播放动画
-        egret.setTimeout(this.playEndEndHandler, this, 9000);
-    };
-    AppView.prototype.playEndEndHandler = function () {
         this.setViewState(0);
     };
     AppView.prototype.getBetRoundRspHandler = function (event) {

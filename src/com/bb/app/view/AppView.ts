@@ -5,6 +5,8 @@
  */
 class AppView extends MyComponent {
 
+    //大的背景区域，包括鱼游动
+    private _gameScene: GameScene;
     private _betScene: BetScene;
     private _startingPlayScene: StartingPlayScene;
     private _topLayer: eui.Component;
@@ -20,6 +22,15 @@ class AppView extends MyComponent {
     }
 
     private intApp(event: LoginServiceEvent): void {
+        if(!this._gameScene)
+        {
+            this._gameScene = new GameScene();
+            this._gameScene.percentWidth = 100;
+            this._gameScene.percentHeight = 100;
+            this._gameScene.visible = true;
+            this.addChild(this._gameScene);
+        }
+
 
         if (!this._betScene) {
             this._betScene = new BetScene();
@@ -56,22 +67,18 @@ class AppView extends MyComponent {
         BetService.getInstance().addEventListener(BetServiceEvent.PLAY_END, this.playEndHandler, this);
         BetService.getInstance().getCurrentBetRoundReq();
     }
+
+   
     private playStartHandler(event: BetServiceEvent): void {
         //播放动画
-       egret.setTimeout(this.playStartEendHandler,this,9000);
+      this.setViewState(1);
     }
-    private playStartEendHandler(): void {
-       
-        this.setViewState(1);
-    }
+  
     private playEndHandler(event: BetServiceEvent): void {
-        //播放动画
-        egret.setTimeout(this.playEndEndHandler,this,9000);
+   
+       this.setViewState(0);
     }
-    private playEndEndHandler(): void {
-       
-        this.setViewState(0);
-    }
+
     private getBetRoundRspHandler(event: BetServiceEvent): void {
 
         var data: any = event.data;
