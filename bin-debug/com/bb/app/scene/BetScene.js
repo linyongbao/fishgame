@@ -44,7 +44,7 @@ var BetScene = (function (_super) {
         this._baseUI.width = w;
         this._baseUI.height = h;
         this._betAreaUI.width = w;
-        this._betAreaUI.height = 200;
+        this._betAreaUI.height = 300;
         this._betAreaUI.graphics.clear();
         this._betAreaUI.graphics.beginFill(0xECBF02, 1);
         this._betAreaUI.graphics.drawRect(0, 0, w, this._betAreaUI.height);

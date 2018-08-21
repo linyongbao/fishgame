@@ -34,22 +34,20 @@ var BetService = (function (_super) {
         var betServiceEvent;
         if (reqData.serviceId == CmdUtil.BET_SERVICE_ID) {
             switch (reqData.cmd) {
-                case CmdUtil.MY_BET_RSP:
+                case CmdUtil.BET_ACTION_RSP:
                     this.betRsp(reqData);
                     break;
-                case CmdUtil.BET_ROUND_RSP:
+                case CmdUtil.BET_ROUND_INFO_RSP:
                     this.getCurrentBetRoundRsp(reqData);
                     break;
-                case CmdUtil.BET_ROUND_BRO:
+                case CmdUtil.BET_ROUND_INFO_BRO:
                     this.currentBetRoundRro(reqData);
                     break;
                 case CmdUtil.PLAY_START_BRO:
-                    //开始游戏通知，用户切换界面
                     betServiceEvent = new BetServiceEvent(BetServiceEvent.PLAY_START);
                     this.dispatchEvent(betServiceEvent);
                     break;
                 case CmdUtil.PLAY_END_BRO:
-                    //结束游戏通知，用户切换界面
                     betServiceEvent = new BetServiceEvent(BetServiceEvent.PLAY_END);
                     this.dispatchEvent(betServiceEvent);
                     break;
@@ -63,13 +61,13 @@ var BetService = (function (_super) {
     };
     BetService.prototype.betReq = function (betData) {
         var reqData = new BaseREQData();
-        reqData.cmd = CmdUtil.MY_BET_REQ; //
+        reqData.cmd = CmdUtil.BET_ACTION_REQ; //
         reqData.jsonObj = betData; //
         this.dataService_bet.sendData(reqData);
     };
     BetService.prototype.getCurrentBetRoundReq = function () {
         var reqData = new BaseREQData();
-        reqData.cmd = CmdUtil.BET_ROUND_REQ; //
+        reqData.cmd = CmdUtil.BET_ROUND_INFO_REQ; //
         reqData.jsonObj = {}; //参数
         this.dataService_bet.sendData(reqData);
     };
