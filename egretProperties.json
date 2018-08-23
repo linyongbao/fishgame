@@ -28,6 +28,9 @@
 			"name": "socket"
 		},
 		{
+			"name": "dragonBones"
+		},
+		{
 			"name": "socket.io",
 			"path": "libsrc/socket"
 		},

@@ -56,11 +56,13 @@ var StartingPlayScene = (function (_super) {
     StartingPlayScene.prototype.getBetRoundRspHandler = function (event) {
         var data = event.data;
         var jsonData = data.jsonObj;
-        var currentBetRound = jsonData.currentBetRound;
-        this.doCurrentBetRound(currentBetRound);
+        this.doCurrentBetRound(jsonData);
     };
-    StartingPlayScene.prototype.doCurrentBetRound = function (currentBetRound) {
+    StartingPlayScene.prototype.doCurrentBetRound = function (data) {
+        var currentBetRound = data;
         if (currentBetRound.state == 1) {
+            var betTimeTotal = currentBetRound.gameTimeTotal;
+            var betTimeLeft = currentBetRound.ameTimeLeft;
         }
     };
     return StartingPlayScene;
