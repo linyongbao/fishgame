@@ -65,17 +65,17 @@ class StartingPlayScene extends MyComponent{
 
         var data: any = event.data;
         var jsonData:any = data.jsonObj;
-        var currentBetRound :any = jsonData.currentBetRound;
-        this.doCurrentBetRound(currentBetRound);
-    }
-    private doCurrentBetRound(currentBetRound : any){
 
-     
-        if(currentBetRound.state == 1)
-        {
-           
+        this.doCurrentBetRound(jsonData);
+    }
+    private doCurrentBetRound(data : any){
+
+        var currentBetRound : any = data;
+        if (currentBetRound.state == 1) {
+            var betTimeTotal = currentBetRound.gameTimeTotal;
+            var betTimeLeft = currentBetRound.ameTimeLeft;
         }
-       
+     
     }
 
 

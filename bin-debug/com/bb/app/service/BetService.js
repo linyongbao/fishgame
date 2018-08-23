@@ -43,6 +43,10 @@ var BetService = (function (_super) {
                 case CmdUtil.BET_ROUND_INFO_BRO:
                     this.currentBetRoundRro(reqData);
                     break;
+            }
+        }
+        else if (reqData.serviceId == CmdUtil.PLAY_SERVICE_ID) {
+            switch (reqData.cmd) {
                 case CmdUtil.PLAY_START_BRO:
                     betServiceEvent = new BetServiceEvent(BetServiceEvent.PLAY_START);
                     this.dispatchEvent(betServiceEvent);

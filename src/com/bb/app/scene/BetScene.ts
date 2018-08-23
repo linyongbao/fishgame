@@ -90,13 +90,14 @@ class BetScene extends MyComponent {
 
         var data: any = event.data;
         var jsonData: any = data.jsonObj;
-        var currentBetRound: any = jsonData.currentBetRound;
-        this.doCurrentBetRound(currentBetRound);
+        this.doCurrentBetRound(jsonData);
     }
-    private doCurrentBetRound(currentBetRound: any) {
+    private doCurrentBetRound(data: any) {
 
+        var currentBetRound : any = data;
         if (currentBetRound.state == 0) {
-            
+            var betTimeTotal = currentBetRound.betTimeTotal;
+            var betTimeLeft = currentBetRound.betTimeLeft;
         }
 
 

@@ -62,6 +62,7 @@ class AppView extends MyComponent {
         this.setViewState(0);
 
 
+        BetService.getInstance().addEventListener(BetServiceEvent.CURRENT_BET_COUND_BRO, this.currentRoundRroHandler, this);
         BetService.getInstance().addEventListener(BetServiceEvent.GET_CURRENT_BET_COUND_RSP, this.getBetRoundRspHandler, this);
         BetService.getInstance().addEventListener(BetServiceEvent.PLAY_START, this.playStartHandler, this);
         BetService.getInstance().addEventListener(BetServiceEvent.PLAY_END, this.playEndHandler, this);
@@ -78,13 +79,23 @@ class AppView extends MyComponent {
    
        this.setViewState(0);
     }
-
+    private currentRoundRroHandler(event: BetServiceEvent): void {
+        var data: any = event.data;
+        var jsonData: any = data.jsonObj;
+        var currentBetRound: any = jsonData.currentBetRound;
+        if (currentBetRound.state == 0) {
+            this.setViewState(0);
+        }
+        else if (currentBetRound.state == 1) {
+            this.setViewState(1);
+        }
+    }
     private getBetRoundRspHandler(event: BetServiceEvent): void {
 
         var data: any = event.data;
         var jsonData: any = data.jsonObj;
         var currentBetRound: any = jsonData.currentBetRound;
-         if (currentBetRound.state == 0) {
+       if (currentBetRound.state == 0) {
             this.setViewState(0);
         }
         else if (currentBetRound.state == 1) {

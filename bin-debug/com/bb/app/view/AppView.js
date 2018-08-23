@@ -56,6 +56,7 @@ var AppView = (function (_super) {
             WindowService.getInstance().cacheLayer(layer);
         }
         this.setViewState(0);
+        BetService.getInstance().addEventListener(BetServiceEvent.CURRENT_BET_COUND_BRO, this.currentRoundRroHandler, this);
         BetService.getInstance().addEventListener(BetServiceEvent.GET_CURRENT_BET_COUND_RSP, this.getBetRoundRspHandler, this);
         BetService.getInstance().addEventListener(BetServiceEvent.PLAY_START, this.playStartHandler, this);
         BetService.getInstance().addEventListener(BetServiceEvent.PLAY_END, this.playEndHandler, this);
@@ -67,6 +68,17 @@ var AppView = (function (_super) {
     };
     AppView.prototype.playEndHandler = function (event) {
         this.setViewState(0);
+    };
+    AppView.prototype.currentRoundRroHandler = function (event) {
+        var data = event.data;
+        var jsonData = data.jsonObj;
+        var currentBetRound = jsonData.currentBetRound;
+        if (currentBetRound.state == 0) {
+            this.setViewState(0);
+        }
+        else if (currentBetRound.state == 1) {
+            this.setViewState(1);
+        }
     };
     AppView.prototype.getBetRoundRspHandler = function (event) {
         var data = event.data;
