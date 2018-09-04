@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "bg.jpg",
+			"keys": "bg.jpg,bet_panel_jpg,gold_10_down_jpg,gold_10_jpg,gold_100_down_jpg,gold_100_jpg,gold_1000_down_jpg,gold_1000_jpg,left_bet_jpg,middle_bet_jpg,recall_down_jpg,recall_jpg,right_bet_jpg",
 			"name": "preload_app"
 		}
 	],
@@ -10,6 +10,68 @@
 			"url": "assets/bg.jpg",
 			"type": "image",
 			"name": "bg.jpg"
+		},
+
+		
+		{
+			"name": "bet_panel_jpg",
+			"type": "image",
+			"url": "assets/fish_bet/bet_panel.jpg"
+		},
+		{
+			"name": "gold_10_down_jpg",
+			"type": "image",
+			"url": "assets/fish_bet/gold_10_down.jpg"
+		},
+		{
+			"name": "gold_10_jpg",
+			"type": "image",
+			"url": "assets/fish_bet/gold_10.jpg"
+		},
+		{
+			"name": "gold_100_down_jpg",
+			"type": "image",
+			"url": "assets/fish_bet/gold_100_down.jpg"
+		},
+		{
+			"name": "gold_100_jpg",
+			"type": "image",
+			"url": "assets/fish_bet/gold_100.jpg"
+		},
+		{
+			"name": "gold_1000_down_jpg",
+			"type": "image",
+			"url": "assets/fish_bet/gold_1000_down.jpg"
+		},
+		{
+			"name": "gold_1000_jpg",
+			"type": "image",
+			"url": "assets/fish_bet/gold_1000.jpg"
+		},
+		{
+			"name": "left_bet_jpg",
+			"type": "image",
+			"url": "assets/fish_bet/left_bet.jpg"
+		},
+		{
+			"name": "middle_bet_jpg",
+			"type": "image",
+			"url": "assets/fish_bet/middle_bet.jpg"
+		},
+		{
+			"name": "recall_down_jpg",
+			"type": "image",
+			"url": "assets/fish_bet/recall_down.jpg"
+		},
+		{
+			"name": "recall_jpg",
+			"type": "image",
+			"url": "assets/fish_bet/recall.jpg"
+		},
+		{
+			"name": "right_bet_jpg",
+			"type": "image",
+			"url": "assets/fish_bet/right_bet.jpg"
 		}
 	]
 }

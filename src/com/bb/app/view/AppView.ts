@@ -17,6 +17,7 @@ class AppView extends MyComponent {
 
         LoginService.getInstance().addEventListener(LoginServiceEvent.LOGIN_SUCCESS, this.intApp, this);
         AppService.getInstance().initApp();
+        this.intApp(new LoginServiceEvent(LoginServiceEvent.LOGIN_SUCCESS));
 
 
     }

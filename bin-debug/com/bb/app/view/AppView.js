@@ -22,6 +22,7 @@ var AppView = (function (_super) {
         var _this = _super.call(this) || this;
         LoginService.getInstance().addEventListener(LoginServiceEvent.LOGIN_SUCCESS, _this.intApp, _this);
         AppService.getInstance().initApp();
+        _this.intApp(new LoginServiceEvent(LoginServiceEvent.LOGIN_SUCCESS));
         return _this;
     }
     AppView.prototype.intApp = function (event) {
