@@ -25,20 +25,25 @@ var BetScene = (function (_super) {
         //放下注面板的地方
         _this._betAreaUI = new MyComponent();
         _this.addChild(_this._betAreaUI);
+        console.log(_this._betAreaUI.width + "====1111");
         //下注面板
         var betPannel = AssetsUtil.createBitmapByName("bet_panel_jpg");
         _this._betAreaUI.addChild(betPannel);
+        console.log(betPannel.width + "====>>");
+        console.log(_this._betAreaUI.width + "====2222");
+        console.log();
         //下注提示文字
-        var recallTips = new eui.Label;
+        var recallTips = new egret.TextField();
         recallTips.text = "请选择支持蓝猫或者红鼠";
-        recallTips.x = 50;
-        recallTips.y = 50;
-        recallTips.width = _this._betAreaUI.width;
+        recallTips.x = 0;
+        recallTips.y = 17;
+        recallTips.width = 750;
         recallTips.height = 30;
         recallTips.textColor = 0xff0000;
-        //  recallTips.fontFamily = "KaiTi";//ps提示说系统上这个字体丢失，有待测试
-        //  recallTips.textAlign = egret.HorizontalAlign.CENTER;
-        //  recallTips.verticalAlign = egret.VerticalAlign.MIDDLE;
+        recallTips.fontFamily = "KaiTi"; //ps提示说系统上这个字体丢失，有待测试
+        recallTips.textAlign = egret.HorizontalAlign.CENTER;
+        recallTips.verticalAlign = egret.VerticalAlign.MIDDLE;
+        recallTips.size = 13;
         //撤回按钮
         //  var recallButton = AssetsUtil.createBitmapByName("recall_jpg");
         //  recallButton.x = (this._betAreaUI.width - 126) / 2;
@@ -67,7 +72,7 @@ var BetScene = (function (_super) {
         // this._baseUI .addChild(this._rightDog);
         // var label:eui.Label = new eui.Label();
         // label.text = "正在下注";
-        // label.textColor = 0x00ff00;
+        // label.textColor = 0x00–ff00;
         // label.x  = 100;
         // label.y = 20;
         // this._baseUI.addChild(label);

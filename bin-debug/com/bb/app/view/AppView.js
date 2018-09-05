@@ -31,13 +31,13 @@ var AppView = (function (_super) {
             this._gameScene.percentWidth = 100;
             this._gameScene.percentHeight = 100;
             this._gameScene.visible = true;
-            this.addChild(this._gameScene);
+            // this.addChild(this._gameScene);
         }
         if (!this._betScene) {
             this._betScene = new BetScene();
             this._betScene.percentWidth = 100;
             this._betScene.percentHeight = 100;
-            this._betScene.visible = false;
+            this._betScene.visible = true;
             this.addChild(this._betScene);
         }
         if (!this._startingPlayScene) {
@@ -45,17 +45,17 @@ var AppView = (function (_super) {
             this._startingPlayScene.visible = false;
             this._startingPlayScene.percentWidth = 100;
             this._startingPlayScene.percentHeight = 100;
-            this.addChild(this._startingPlayScene);
+            // this.addChild(this._startingPlayScene);
         }
-        this._topLayer = new eui.Component();
-        this.addChild(this._topLayer);
-        for (var i = 0; i < 3; i++) {
-            var layer = new eui.Component();
-            layer.x = 0;
-            layer.y = 0;
-            this._topLayer.addChild(layer);
-            WindowService.getInstance().cacheLayer(layer);
-        }
+        // this._topLayer = new eui.Component();
+        // this.addChild(this._topLayer);
+        // for (var i = 0; i < 3; i++) {
+        //     var layer: eui.Component = new eui.Component();
+        //     layer.x = 0;
+        //     layer.y = 0;
+        //     this._topLayer.addChild(layer);
+        //     WindowService.getInstance().cacheLayer(layer);
+        // }
         this.setViewState(0);
         BetService.getInstance().addEventListener(BetServiceEvent.CURRENT_BET_COUND_BRO, this.currentRoundRroHandler, this);
         BetService.getInstance().addEventListener(BetServiceEvent.GET_CURRENT_BET_COUND_RSP, this.getBetRoundRspHandler, this);
