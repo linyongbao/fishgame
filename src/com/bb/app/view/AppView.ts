@@ -29,7 +29,7 @@ class AppView extends MyComponent {
             this._gameScene.percentWidth = 100;
             this._gameScene.percentHeight = 100;
             this._gameScene.visible = true;
-            this.addChild(this._gameScene);
+            // this.addChild(this._gameScene);
         }
 
 
@@ -37,7 +37,7 @@ class AppView extends MyComponent {
             this._betScene = new BetScene();
             this._betScene.percentWidth = 100;
             this._betScene.percentHeight = 100;
-            this._betScene.visible = false;
+            this._betScene.visible = true;
             this.addChild(this._betScene);
         }
 
@@ -46,19 +46,19 @@ class AppView extends MyComponent {
             this._startingPlayScene.visible = false;
             this._startingPlayScene.percentWidth = 100;
             this._startingPlayScene.percentHeight = 100;
-            this.addChild(this._startingPlayScene);
+            // this.addChild(this._startingPlayScene);
         }
 
-        this._topLayer = new eui.Component();
-        this.addChild(this._topLayer);
+        // this._topLayer = new eui.Component();
+        // this.addChild(this._topLayer);
 
-        for (var i = 0; i < 3; i++) {
-            var layer: eui.Component = new eui.Component();
-            layer.x = 0;
-            layer.y = 0;
-            this._topLayer.addChild(layer);
-            WindowService.getInstance().cacheLayer(layer);
-        }
+        // for (var i = 0; i < 3; i++) {
+        //     var layer: eui.Component = new eui.Component();
+        //     layer.x = 0;
+        //     layer.y = 0;
+        //     this._topLayer.addChild(layer);
+        //     WindowService.getInstance().cacheLayer(layer);
+        // }
 
         this.setViewState(0);
 
