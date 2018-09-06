@@ -89,6 +89,7 @@
     <script src="js/jquery1.10.2.min.js"></script>
     <script src="js/util.js"></script>
     <script src="js/init.js"></script>
+	<script src="js/tronweb.min.js"></script>
 </head>
 <body>
 
@@ -113,6 +114,32 @@
          * }
          **/
         egret.runEgret({renderMode:"webgl", audioType:0});
+
+		const api_url = 'http://api.trondapps.org'  //请求的http服务地址
+		const tronWeb = new TronWeb(api_url)
+
+		 /**
+		function getBalance(address){
+			tronWeb.getBalance(address).then(res=>{
+			console.log(res);
+			})
+		}
+
+		getBalance("TEJSBSHiptWZLEXHW7zn9GtgfRhxazi3iY");
+		const address = tronWeb.login('da146374a75310b9666e834ee4ad0866d6f4035967bfc76217c5a495fff9f0d0');
+    	console.log(address);
+ 		**/
+		  /**
+			tronWeb.generateAddressOnClient().then(
+			res=>{
+				console.log(res);
+			});
+		**/
+		tronWeb.updateAccount('linyongbao','TEJSBSHiptWZLEXHW7zn9GtgfRhxazi3iY').then(
+			res=>{
+				console.log(res);
+			}
+			)
     </script>
 </body>
 </html>
