@@ -63,12 +63,14 @@ var BetService = (function (_super) {
         event.data = data;
         this.dispatchEvent(event);
     };
+    //下注请求方法
     BetService.prototype.betReq = function (betData) {
         var reqData = new BaseREQData();
         reqData.cmd = CmdUtil.BET_ACTION_REQ; //
         reqData.jsonObj = betData; //
         this.dataService_bet.sendData(reqData);
     };
+    //获取当前此轮下注情况
     BetService.prototype.getCurrentBetRoundReq = function () {
         var reqData = new BaseREQData();
         reqData.cmd = CmdUtil.BET_ROUND_INFO_REQ; //

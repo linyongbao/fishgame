@@ -10,6 +10,28 @@ class BetScene extends MyComponent {
     private _betAreaUI: MyComponent;
     private _leftDog: LeftDogBeting;
     private _rightDog: RightDogBeting;
+
+    private recallTips:egret.Bitmap;
+    private recallButton:egret.Bitmap;
+
+    private leftBetButton:egret.Bitmap;
+    private middleBetButton:egret.Bitmap;
+    private rightBetButton:egret.Bitmap;
+
+    private gold10Button:egret.Bitmap;
+    private gold100Button:egret.Bitmap;
+    private gold1000Button:egret.Bitmap;
+
+    private gold10DownButton:egret.Bitmap;
+    private gold100DownButton:egret.Bitmap;
+    private gold1000DownButton:egret.Bitmap;
+
+    private _currentChoosGold:number;
+
+    private betPannel:egret.Bitmap;
+
+    private betTips:egret.TextField;
+
     public constructor() {
         super();
 
@@ -25,148 +47,126 @@ class BetScene extends MyComponent {
         console.log(this._betAreaUI.width + "====1111");
 
         //下注面板
-        var betPannel = AssetsUtil.createBitmapByName("bet_panel_jpg");
-        this._betAreaUI.addChild(betPannel);
+        this.betPannel = AssetsUtil.createBitmapByName("bet_panel_jpg");
+        this._betAreaUI.addChild(this.betPannel);
 
-        console.log(betPannel.width + "====>>");
+        console.log(this.betPannel.width + "====>>");
 
         console.log(this._betAreaUI.width + "====2222");
 
         //下注提示文字
-        var recallTips:egret.TextField = new egret.TextField();
-         recallTips.text = "请选择支持蓝猫或者红鼠";
-         recallTips.x = 0;
-         recallTips.y = 23;
-         recallTips.size = 13;
-         recallTips.width = 750;
-         recallTips.height = 30;
-         recallTips.textColor = 0xff0000;
-         recallTips.fontFamily = "KaiTi";//ps提示说系统上这个字体丢失，有待测试
-         recallTips.textAlign = egret.HorizontalAlign.CENTER;
-         recallTips.verticalAlign = egret.VerticalAlign.MIDDLE;
+         this.betTips = new egret.TextField();
+         this.betTips.text = "请选择支持蓝猫或者红鼠";
+         this.betTips.x = 0;
+         this.betTips.y = 23;
+         this.betTips.size = 13;
+         this.betTips.width = 750;
+         this.betTips.height = 30;
+         this.betTips.textColor = 0xff0000;
+         this.betTips.fontFamily = "KaiTi";//ps提示说系统上这个字体丢失，有待测试
+         this.betTips.textAlign = egret.HorizontalAlign.CENTER;
+         this.betTips.verticalAlign = egret.VerticalAlign.MIDDLE;
 
          //撤回按钮
-         var recallButton = AssetsUtil.createBitmapByName("recall_jpg");
-         recallButton.x = (750 - 126) / 2;
-         recallButton.y = 28;
-         recallButton.height = 30;
-         recallButton.width = 126;
-        //  recallButton.visible = false;
+         this.recallButton = AssetsUtil.createBitmapByName("recall_jpg");
+         this.recallButton.x = (750 - 126) / 2;
+         this.recallButton.y = 28;
+         this.recallButton.height = 30;
+         this.recallButton.width = 126;
+        //  this.recallButton.visible = false;
 
          //左下注按钮
-         var leftBetButton = AssetsUtil.createBitmapByName("left_bet_jpg");
-         leftBetButton.x = (750 - 206 * 3 - 20 * 2) / 2;
-         leftBetButton.y = 58;
-         leftBetButton.height = 106;
-         leftBetButton.width = 206;
+         this.leftBetButton = AssetsUtil.createBitmapByName("left_bet_jpg");
+         this.leftBetButton.x = (750 - 206 * 3 - 20 * 2) / 2;
+         this.leftBetButton.y = 58;
+         this.leftBetButton.height = 106;
+         this.leftBetButton.width = 206;
+         this.leftBetButton.touchEnabled = true;
 
          //中下注按钮
-         var middleBetButton = AssetsUtil.createBitmapByName("middle_bet_jpg");
-         middleBetButton.x = (750 - 206 * 3 - 20 * 2) / 2 + 206 + 20;
-         middleBetButton.y = 58;
-         middleBetButton.height = 106;
-         middleBetButton.width = 206;
+         this.middleBetButton = AssetsUtil.createBitmapByName("middle_bet_jpg");
+         this.middleBetButton.x = (750 - 206 * 3 - 20 * 2) / 2 + 206 + 20;
+         this.middleBetButton.y = 58;
+         this.middleBetButton.height = 106;
+         this.middleBetButton.width = 206;
+         this.middleBetButton.touchEnabled = true;
 
          //右下注按钮
-         var rightBetButton = AssetsUtil.createBitmapByName("right_bet_jpg");
-         rightBetButton.x = (750 - 206 * 3 - 20 * 2) / 2 + 206 * 2 + 20 * 2; 
-         rightBetButton.y = 58;
-         rightBetButton.height = 106;
-         rightBetButton.width = 206;
+         this.rightBetButton = AssetsUtil.createBitmapByName("right_bet_jpg");
+         this.rightBetButton.x = (750 - 206 * 3 - 20 * 2) / 2 + 206 * 2 + 20 * 2; 
+         this.rightBetButton.y = 58;
+         this.rightBetButton.height = 106;
+         this.rightBetButton.width = 206;
+         this.rightBetButton.touchEnabled = true;
 
 
          //10块的金币选择按钮，未选择之前
-         var gold10Button = AssetsUtil.createBitmapByName("gold_10_jpg");
-         gold10Button.x = (750 - 182 * 3 - 45 * 2) / 2; 
-         gold10Button.y = 58 + 106 + 60;
-         gold10Button.height = 56;
-         gold10Button.width = 182;
-         gold10Button.visible = false;
+         this.gold10Button = AssetsUtil.createBitmapByName("gold_10_jpg");
+         this.gold10Button.x = (750 - 182 * 3 - 45 * 2) / 2; 
+         this.gold10Button.y = 58 + 106 + 60;
+         this.gold10Button.height = 56;
+         this.gold10Button.width = 182;
+         this.gold10Button.visible = false;
+         this.gold10Button.touchEnabled  = true;
+
+         this._currentChoosGold = 10;//初始化默认选择10元
 
          //100块的金币选择按钮，未选择之前
-         var gold100Button = AssetsUtil.createBitmapByName("gold_100_jpg");
-         gold100Button.x = (750 - 182 * 3 - 45 * 2) / 2 + 182  + 45 ; 
-         gold100Button.y = 58 + 106 + 60;
-         gold100Button.height = 56;
-         gold100Button.width = 182;
-         gold100Button.visible = false;
+         this.gold100Button = AssetsUtil.createBitmapByName("gold_100_jpg");
+         this.gold100Button.x = (750 - 182 * 3 - 45 * 2) / 2 + 182  + 45 ; 
+         this.gold100Button.y = 58 + 106 + 60;
+         this.gold100Button.height = 56;
+         this.gold100Button.width = 182;
+         this.gold100Button.touchEnabled  = true;
 
          //1000块的金币选择按钮，未选择之前
-         var gold1000Button = AssetsUtil.createBitmapByName("gold_1000_jpg");
-         gold1000Button.x = (750 - 182 * 3 - 45 * 2) / 2 + 182 * 2 + 45 * 2; 
-         gold1000Button.y = 58 + 106 + 60;
-         gold1000Button.height = 56;
-         gold1000Button.width = 182;
-         gold1000Button.visible = false;
+         this.gold1000Button = AssetsUtil.createBitmapByName("gold_1000_jpg");
+         this.gold1000Button.x = (750 - 182 * 3 - 45 * 2) / 2 + 182 * 2 + 45 * 2; 
+         this.gold1000Button.y = 58 + 106 + 60;
+         this.gold1000Button.height = 56;
+         this.gold1000Button.width = 182;
+         this.gold1000Button.touchEnabled  = true;
 
          //10块的金币选择按钮，选择之后
-         var gold10DownButton = AssetsUtil.createBitmapByName("gold_10_down_jpg");
-         gold10DownButton.x = (750 - 200 * 3 - 37 * 2) / 2; 
-         gold10DownButton.y = 58 + 106 + 60 - 5;
-         gold10DownButton.height = 70;
-         gold10DownButton.width = 200;
+         this.gold10DownButton = AssetsUtil.createBitmapByName("gold_10_down_jpg");
+         this.gold10DownButton.x = (750 - 200 * 3 - 37 * 2) / 2; 
+         this.gold10DownButton.y = 58 + 106 + 60 - 5;
+         this.gold10DownButton.height = 70;
+         this.gold10DownButton.width = 200;
 
          //100块的金币选择按钮，选择之后
-         var gold100DownButton = AssetsUtil.createBitmapByName("gold_100_down_jpg");
-         gold100DownButton.x = (750 - 200 * 3 - 37 * 2) / 2 + 200  + 37 ; 
-         gold100DownButton.y = 58 + 106 + 60 - 5;
-         gold100DownButton.height = 70;
-         gold100DownButton.width = 200;
-        //  gold100DownButton.visible = false;
+         this.gold100DownButton = AssetsUtil.createBitmapByName("gold_100_down_jpg");
+         this.gold100DownButton.x = (750 - 200 * 3 - 37 * 2) / 2 + 200  + 37 ; 
+         this.gold100DownButton.y = 58 + 106 + 60 - 5;
+         this.gold100DownButton.height = 70;
+         this.gold100DownButton.width = 200;
+         this.gold100DownButton.visible = false;
 
          //1000块的金币选择按钮，选择之后
-         var gold1000DownButton = AssetsUtil.createBitmapByName("gold_1000_down_jpg");
-         gold1000DownButton.x = (750 - 200 * 3 - 37 * 2) / 2 + 200 * 2 + 37 * 2; 
-         gold1000DownButton.y = 58 + 106 + 60 - 5;
-         gold1000DownButton.height = 70;
-         gold1000DownButton.width = 200;
-        //  gold1000DownButton.visible = false;
-
-        //  //右下注按钮
-        //  var rightBetButton = AssetsUtil.createBitmapByName("right_bet_jpg");
-        //  rightBetButton.x = (750 - 206 * 3 - 20 * 2) / 2 + 206 * 2 + 20 * 2; 
-        //  rightBetButton.y = 58;
-        //  rightBetButton.height = 106;
-        //  rightBetButton.width = 206;
-
-        //  //右下注按钮
-        //  var rightBetButton = AssetsUtil.createBitmapByName("right_bet_jpg");
-        //  rightBetButton.x = (750 - 206 * 3 - 20 * 2) / 2 + 206 * 2 + 20 * 2; 
-        //  rightBetButton.y = 58;
-        //  rightBetButton.height = 106;
-        //  rightBetButton.width = 206;
-
-        //  //右下注按钮
-        //  var rightBetButton = AssetsUtil.createBitmapByName("right_bet_jpg");
-        //  rightBetButton.x = (750 - 206 * 3 - 20 * 2) / 2 + 206 * 2 + 20 * 2; 
-        //  rightBetButton.y = 58;
-        //  rightBetButton.height = 106;
-        //  rightBetButton.width = 206;
+         this.gold1000DownButton = AssetsUtil.createBitmapByName("gold_1000_down_jpg");
+         this.gold1000DownButton.x = (750 - 200 * 3 - 37 * 2) / 2 + 200 * 2 + 37 * 2; 
+         this.gold1000DownButton.y = 58 + 106 + 60 - 5;
+         this.gold1000DownButton.height = 70;
+         this.gold1000DownButton.width = 200;
+         this.gold1000DownButton.visible = false;
 
 
-         this._betAreaUI.addChild(recallTips);
-         this._betAreaUI.addChild(recallButton);
-        this._betAreaUI.addChild(leftBetButton);
-        this._betAreaUI.addChild(middleBetButton);
-        this._betAreaUI.addChild(rightBetButton);
-        this._betAreaUI.addChild(gold10Button);
-        this._betAreaUI.addChild(gold100Button);
-        this._betAreaUI.addChild(gold1000Button);
-        this._betAreaUI.addChild(gold10DownButton);
-        this._betAreaUI.addChild(gold100DownButton);
-        this._betAreaUI.addChild(gold1000DownButton);
+         this._betAreaUI.addChild(this.betTips);
+         this._betAreaUI.addChild(this.recallButton);
 
+        this._betAreaUI.addChild(this.leftBetButton);
+        this._betAreaUI.addChild(this.middleBetButton);
+        this._betAreaUI.addChild(this.rightBetButton);
+
+        this._betAreaUI.addChild(this.gold10DownButton);
+        this._betAreaUI.addChild(this.gold100DownButton);
+        this._betAreaUI.addChild(this.gold1000DownButton);
+
+        this._betAreaUI.addChild(this.gold10Button);
+        this._betAreaUI.addChild(this.gold100Button);
+        this._betAreaUI.addChild(this.gold1000Button);
         
-
         
-        // this._betAreaUI.addChild(betPannel);
-        // var leftButton = AssetsUtil.createBitmapByName("left_bet_jpg");
-        // this._betAreaUI.addChild(leftButton);
-        // var middleButton = AssetsUtil.createBitmapByName("middle_bet_jpg");
-        // this._betAreaUI.addChild(middleButton);
-        // var rightButton = AssetsUtil.createBitmapByName("right_bet_jpg");
-        // this._betAreaUI.addChild(rightButton);
-
         // this._leftDog = new LeftDogBeting();
         // this._leftDog.width = 200;
         
@@ -183,10 +183,88 @@ class BetScene extends MyComponent {
         // label.y = 20;
         // this._baseUI.addChild(label);
 
+        this.leftBetButton.addEventListener(egret.TouchEvent.TOUCH_TAP, this.doLeftBet, this);
+        this.middleBetButton.addEventListener(egret.TouchEvent.TOUCH_TAP, this.doMiddleBet, this);
+        this.rightBetButton.addEventListener(egret.TouchEvent.TOUCH_TAP, this.doRightBet, this);
+
+        this.gold10Button.addEventListener(egret.TouchEvent.TOUCH_TAP, this.doChoose10, this);
+        this.gold100Button.addEventListener(egret.TouchEvent.TOUCH_TAP, this.doChoose100, this);
+        this.gold1000Button.addEventListener(egret.TouchEvent.TOUCH_TAP, this.doChoose1000, this);
       
         BetService.getInstance().addEventListener(BetServiceEvent.BET_RSP, this.betRspHandler, this);
         BetService.getInstance().addEventListener(BetServiceEvent.GET_CURRENT_BET_COUND_RSP, this.getBetRoundRspHandler, this);
         BetService.getInstance().addEventListener(BetServiceEvent.CURRENT_BET_COUND_BRO, this.currentBetRoundBroHandler, this);
+
+    }
+
+    private hideAllGoldDownBtn():void{
+
+        console.log("hideAllGoldDownBtn...");
+        this.gold10Button.visible = true;
+        this.gold100Button.visible = true;
+        this.gold1000Button.visible = true;
+
+        this.gold10DownButton.visible = false;
+        this.gold100DownButton.visible = false;
+        this.gold1000DownButton.visible = false;
+
+    }
+
+    private doChoose10():void{
+
+        console.log("doChoose10...");
+        this._currentChoosGold = 10;
+        this.hideAllGoldDownBtn();
+       this.gold10DownButton.visible = true;
+       this.gold10Button.visible = false;
+
+    }
+
+    private doChoose100():void{
+
+        console.log("doChoose100...");
+         this._currentChoosGold = 100;
+         this.hideAllGoldDownBtn();
+         this.gold100DownButton.visible = true;
+       this.gold100Button.visible = false;
+
+    }
+
+    private doChoose1000():void{
+
+        console.log("doChoose1000...");
+         this._currentChoosGold = 1000;
+         this.hideAllGoldDownBtn();
+         this.gold1000DownButton.visible = true;
+        this.gold1000Button.visible = false;
+
+    }
+
+    private doLeftBet(evt:egret.TouchEvent):void{
+
+        
+        var betcount = this._currentChoosGold + "";
+        console.log("doLeftBet..." + betcount);
+        var params = {"moneyType":"trx", "betCount1":betcount};
+        BetService.getInstance().betReq(params);
+
+    }
+
+    private doMiddleBet(evt:egret.TouchEvent):void{
+
+        var betcount = this._currentChoosGold + "";
+        console.log("doMiddleBet..." + betcount);
+        var params = {"moneyType":"trx", "betCount2":betcount};
+        BetService.getInstance().betReq(params);
+
+    }
+
+    private doRightBet(evt:egret.TouchEvent):void{
+
+        var betcount = this._currentChoosGold + "";
+        console.log("doRightBet..." + betcount);
+        var params = {"moneyType":"trx", "betCount2":betcount};
+        BetService.getInstance().betReq(params);
 
     }
 
@@ -217,6 +295,7 @@ class BetScene extends MyComponent {
         super.updateDisplayList(unscaledWidth,unscaledHeight);
         this.reSize(unscaledWidth,unscaledHeight);
     }
+
     private betRspHandler(event: BetServiceEvent): void {
         var data: any = event.data;
         var jsonData: any = data.jsonObj;
@@ -232,12 +311,14 @@ class BetScene extends MyComponent {
         this.doCurrentBetRound(jsonData);
 
     }
+
     private getBetRoundRspHandler(event: BetServiceEvent): void {
 
         var data: any = event.data;
         var jsonData: any = data.jsonObj;
         this.doCurrentBetRound(jsonData);
     }
+
     private doCurrentBetRound(data: any) {
 
         var currentBetRound : any = data;
@@ -248,6 +329,7 @@ class BetScene extends MyComponent {
 
 
     }
+
     private betReqData: BetReqData;
 
     private betHandler(event: egret.TouchEvent) {

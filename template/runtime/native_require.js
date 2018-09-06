@@ -13,8 +13,8 @@ var game_file_list = [
 	"libsrc/socket/bin/socket.io/socket.io.js",
 	"promise/bin/promise.js",
 	"bin-debug/com/bb/base/components/MyComponent.js",
-	"bin-debug/com/bb/base/websocket/BaseDataService.js",
 	"bin-debug/com/bb/base/components/TitleWindow.js",
+	"bin-debug/com/bb/base/websocket/BaseDataService.js",
 	"bin-debug/com/bb/app/service/LoginService.js",
 	"bin-debug/com/bb/app/component/Alert.js",
 	"bin-debug/com/bb/app/component/DragonPlayer.js",
@@ -34,7 +34,7 @@ var game_file_list = [
 	"bin-debug/com/bb/app/scene/StartingPlayScene.js",
 	"bin-debug/com/bb/app/service/AppService.js",
 	"bin-debug/com/bb/app/service/BetService.js",
-	"bin-debug/com/bb/base/websocket/WebSocketEvent.js",
+	"bin-debug/LoadingUI.js",
 	"bin-debug/com/bb/app/service/WindowService.js",
 	"bin-debug/com/bb/app/util/AssetsUtil.js",
 	"bin-debug/com/bb/app/util/CmdUtil.js",
@@ -56,7 +56,7 @@ var game_file_list = [
 	"bin-debug/com/bb/base/websocket/DataService.js",
 	"bin-debug/com/bb/base/websocket/ISocketDataService.js",
 	"bin-debug/com/bb/base/websocket/SocketDataServiceFactory.js",
-	"bin-debug/LoadingUI.js",
+	"bin-debug/com/bb/base/websocket/WebSocketEvent.js",
 	//----auto game_file_list end----
 ];
 

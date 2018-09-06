@@ -69,6 +69,8 @@ class BetService extends egret.EventDispatcher {
         this.dispatchEvent(event);
 
     }
+
+    //下注请求方法
     public betReq(betData: any) {
 
         var reqData: BaseREQData = new BaseREQData();
@@ -77,6 +79,8 @@ class BetService extends egret.EventDispatcher {
         this.dataService_bet.sendData(reqData);
 
     }
+
+    //获取当前此轮下注情况
     public getCurrentBetRoundReq() {
 
         var reqData: BaseREQData = new BaseREQData();
