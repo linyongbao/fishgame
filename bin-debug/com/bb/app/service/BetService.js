@@ -36,6 +36,8 @@ var BetService = (function (_super) {
             switch (reqData.cmd) {
                 case CmdUtil.BET_ACTION_RSP:
                     this.betRsp(reqData);
+                case CmdUtil.BET_ACTION_BRO:
+                    this.betBroadcast(reqData);
                     break;
                 case CmdUtil.BET_ROUND_INFO_RSP:
                     this.getCurrentBetRoundRsp(reqData);
@@ -60,6 +62,11 @@ var BetService = (function (_super) {
     };
     BetService.prototype.betRsp = function (data) {
         var event = new BetServiceEvent(BetServiceEvent.BET_RSP);
+        event.data = data;
+        this.dispatchEvent(event);
+    };
+    BetService.prototype.betBroadcast = function (data) {
+        var event = new BetServiceEvent(BetServiceEvent.BET_BRO);
         event.data = data;
         this.dispatchEvent(event);
     };

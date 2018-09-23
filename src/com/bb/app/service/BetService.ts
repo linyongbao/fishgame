@@ -28,6 +28,8 @@ class BetService extends egret.EventDispatcher {
                 case CmdUtil.BET_ACTION_RSP:
                     this.betRsp(reqData);
 
+                case CmdUtil.BET_ACTION_BRO:
+                    this.betBroadcast(reqData);
                     break;
                 case CmdUtil.BET_ROUND_INFO_RSP:
                     this.getCurrentBetRoundRsp(reqData);
@@ -67,7 +69,12 @@ class BetService extends egret.EventDispatcher {
         var event: BetServiceEvent = new BetServiceEvent(BetServiceEvent.BET_RSP);
         event.data = data;
         this.dispatchEvent(event);
+    }
 
+    private betBroadcast(data: any) {
+        var event: BetServiceEvent = new BetServiceEvent(BetServiceEvent.BET_BRO);
+        event.data = data;
+        this.dispatchEvent(event);
     }
 
     //下注请求方法

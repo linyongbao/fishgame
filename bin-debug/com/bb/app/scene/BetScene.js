@@ -57,6 +57,18 @@ var BetScene = (function (_super) {
         _this.leftBetButton.height = 106;
         _this.leftBetButton.width = 206;
         _this.leftBetButton.touchEnabled = true;
+        //左边自己下注金额
+        _this._leftGoldTxt = new egret.TextField();
+        _this._leftGoldTxt.text = "0";
+        _this._leftGoldTxt.x = _this.leftBetButton.x + 206 - 100;
+        _this._leftGoldTxt.y = 58 + 80;
+        _this._leftGoldTxt.size = 13;
+        _this._leftGoldTxt.width = 100;
+        _this._leftGoldTxt.height = 26;
+        _this._leftGoldTxt.textColor = 0xff0000;
+        _this._leftGoldTxt.fontFamily = "KaiTi"; //ps提示说系统上这个字体丢失，有待测试
+        _this._leftGoldTxt.textAlign = egret.HorizontalAlign.RIGHT;
+        _this._leftGoldTxt.verticalAlign = egret.VerticalAlign.MIDDLE;
         //中下注按钮
         _this.middleBetButton = AssetsUtil.createBitmapByName("middle_bet_jpg");
         _this.middleBetButton.x = (750 - 206 * 3 - 20 * 2) / 2 + 206 + 20;
@@ -64,6 +76,18 @@ var BetScene = (function (_super) {
         _this.middleBetButton.height = 106;
         _this.middleBetButton.width = 206;
         _this.middleBetButton.touchEnabled = true;
+        //中间自己下注金额
+        _this._middleGoldTxt = new egret.TextField();
+        _this._middleGoldTxt.text = "0";
+        _this._middleGoldTxt.x = _this.middleBetButton.x + 206 - 100;
+        _this._middleGoldTxt.y = 58 + 80;
+        _this._middleGoldTxt.size = 13;
+        _this._middleGoldTxt.width = 100;
+        _this._middleGoldTxt.height = 26;
+        _this._middleGoldTxt.textColor = 0xff0000;
+        _this._middleGoldTxt.fontFamily = "KaiTi"; //ps提示说系统上这个字体丢失，有待测试
+        _this._middleGoldTxt.textAlign = egret.HorizontalAlign.RIGHT;
+        _this._middleGoldTxt.verticalAlign = egret.VerticalAlign.MIDDLE;
         //右下注按钮
         _this.rightBetButton = AssetsUtil.createBitmapByName("right_bet_jpg");
         _this.rightBetButton.x = (750 - 206 * 3 - 20 * 2) / 2 + 206 * 2 + 20 * 2;
@@ -71,6 +95,18 @@ var BetScene = (function (_super) {
         _this.rightBetButton.height = 106;
         _this.rightBetButton.width = 206;
         _this.rightBetButton.touchEnabled = true;
+        //右边自己下注金额
+        _this._rightGoldTxt = new egret.TextField();
+        _this._rightGoldTxt.text = "0";
+        _this._rightGoldTxt.x = _this.rightBetButton.x + 206 - 100;
+        _this._rightGoldTxt.y = 58 + 80;
+        _this._rightGoldTxt.size = 13;
+        _this._rightGoldTxt.width = 100;
+        _this._rightGoldTxt.height = 26;
+        _this._rightGoldTxt.textColor = 0xff0000;
+        _this._rightGoldTxt.fontFamily = "KaiTi"; //ps提示说系统上这个字体丢失，有待测试
+        _this._rightGoldTxt.textAlign = egret.HorizontalAlign.RIGHT;
+        _this._rightGoldTxt.verticalAlign = egret.VerticalAlign.MIDDLE;
         //10块的金币选择按钮，未选择之前
         _this.gold10Button = AssetsUtil.createBitmapByName("gold_10_jpg");
         _this.gold10Button.x = (750 - 182 * 3 - 45 * 2) / 2;
@@ -117,8 +153,11 @@ var BetScene = (function (_super) {
         _this._betAreaUI.addChild(_this.betTips);
         _this._betAreaUI.addChild(_this.recallButton);
         _this._betAreaUI.addChild(_this.leftBetButton);
+        _this._betAreaUI.addChild(_this._leftGoldTxt);
         _this._betAreaUI.addChild(_this.middleBetButton);
+        _this._betAreaUI.addChild(_this._middleGoldTxt);
         _this._betAreaUI.addChild(_this.rightBetButton);
+        _this._betAreaUI.addChild(_this._rightGoldTxt);
         _this._betAreaUI.addChild(_this.gold10DownButton);
         _this._betAreaUI.addChild(_this.gold100DownButton);
         _this._betAreaUI.addChild(_this.gold1000DownButton);
@@ -144,6 +183,7 @@ var BetScene = (function (_super) {
         _this.gold100Button.addEventListener(egret.TouchEvent.TOUCH_TAP, _this.doChoose100, _this);
         _this.gold1000Button.addEventListener(egret.TouchEvent.TOUCH_TAP, _this.doChoose1000, _this);
         BetService.getInstance().addEventListener(BetServiceEvent.BET_RSP, _this.betRspHandler, _this);
+        BetService.getInstance().addEventListener(BetServiceEvent.BET_BRO, _this.betBroadcastHandler, _this);
         BetService.getInstance().addEventListener(BetServiceEvent.GET_CURRENT_BET_COUND_RSP, _this.getBetRoundRspHandler, _this);
         BetService.getInstance().addEventListener(BetServiceEvent.CURRENT_BET_COUND_BRO, _this.currentBetRoundBroHandler, _this);
         return _this;
@@ -215,27 +255,74 @@ var BetScene = (function (_super) {
         _super.prototype.updateDisplayList.call(this, unscaledWidth, unscaledHeight);
         this.reSize(unscaledWidth, unscaledHeight);
     };
+    /**
+     * 下注回调处理
+     */
     BetScene.prototype.betRspHandler = function (event) {
         var data = event.data;
         var jsonData = data.jsonObj;
         if (data.code == 0) {
+            this._leftGoldTxt.text = "" + data.betCount1;
+            this._middleGoldTxt.text = "" + data.betCount2;
+            this._rightGoldTxt.text = "" + data.betCount3;
+        }
+        else {
+            //TODO 需要做提示弹窗
+            console.log("betRspHandler fail, msg:" + data.notice);
         }
     };
+    /**
+     * 全局下注广播通知处理
+     */
+    BetScene.prototype.betBroadcastHandler = function (event) {
+        var data = event.data;
+        var jsonData = data.jsonObj;
+        if (data.code == 0) {
+            this._leftGoldTxt.text = "" + data.betCount1;
+            this._middleGoldTxt.text = "" + data.betCount2;
+            this._rightGoldTxt.text = "" + data.betCount3;
+            //TODO 全局下注金额要改变
+        }
+        else {
+            //TODO 需要做提示弹窗
+            console.log("betBroadcastHandler fail, msg:" + data.notice);
+        }
+    };
+    /**
+     * 广播游戏情况
+     */
     BetScene.prototype.currentBetRoundBroHandler = function (event) {
         var data = event.data;
-        var jsonData = data.jsonObj;
-        this.doCurrentBetRound(jsonData);
+        if (data.code == 0) {
+            this.doCurrentBetRound(data.jsonObj);
+        }
+        else {
+            console.log("currentBetRoundBroHandler fail, msg:" + data.notice);
+        }
     };
+    /**
+     * 单播游戏情况
+     * */
     BetScene.prototype.getBetRoundRspHandler = function (event) {
         var data = event.data;
-        var jsonData = data.jsonObj;
-        this.doCurrentBetRound(jsonData);
+        if (data.code == 0) {
+            this.doCurrentBetRound(data.jsonObj);
+        }
+        else {
+            console.log("getBetRoundRspHandler fail, msg:" + data.notice);
+        }
     };
+    //处理当前游戏情况
     BetScene.prototype.doCurrentBetRound = function (data) {
-        var currentBetRound = data;
-        if (currentBetRound.state == 0) {
-            var betTimeTotal = currentBetRound.betTimeTotal;
-            var betTimeLeft = currentBetRound.betTimeLeft;
+        if (data.currentBetRound.state == 0) {
+            var betTimeTotal = data.currentBetRound.betTimeTotal;
+            var betTimeLeft = data.currentBetRound.betTimeLeft;
+            //TODO 倒数计时
+            var mybet = data.myBetStatic;
+            this._leftGoldTxt.text = "" + mybet.betCount1;
+            this._middleGoldTxt.text = "" + mybet.betCount2;
+            this._rightGoldTxt.text = "" + mybet.betCount3;
+            //TODO 全局下注显示
         }
     };
     BetScene.prototype.betHandler = function (event) {

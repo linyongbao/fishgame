@@ -8,4 +8,7 @@ class LeftDogBeting extends MyComponent{
         this.graphics.endFill();
 
 	}
+
+    
+
 }

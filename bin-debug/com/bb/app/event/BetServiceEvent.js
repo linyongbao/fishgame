@@ -25,7 +25,10 @@ var BetServiceEvent = (function (_super) {
     }
     BetServiceEvent.GET_CURRENT_BET_COUND_RSP = "GET_CURRENT_BET_COUND_RSP";
     BetServiceEvent.CURRENT_BET_COUND_BRO = "CURRENT_BET_COUND_BRO";
+    /** 下注响应事件*/
     BetServiceEvent.BET_RSP = "BET_RSP";
+    /** 全局下注金额*/
+    BetServiceEvent.BET_BRO = "BET_BRO";
     BetServiceEvent.PLAY_START = "PLAY_START";
     BetServiceEvent.PLAY_END = "PLAY_END";
     return BetServiceEvent;
